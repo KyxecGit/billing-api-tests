@@ -1,0 +1,1580 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Документация по API",
+    "description": "Я API-песочница. Ломай меня! Ломай меня полностью!",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://195.38.164.168:7173",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/balance/update/{id}": {
+      "put": {
+        "tags": [
+          "ADMIN - Управление балансами абонентов."
+        ],
+        "operationId": "updateBalance",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BalanceUpdateRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/users/update/{id}": {
+      "put": {
+        "tags": [
+          "ADMIN - Управление пользователями."
+        ],
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "requestDto",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/UserAdminUpdateRequestDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/profile/update/{id}": {
+      "put": {
+        "tags": [
+          "ADMIN - Управление профилями абонентов."
+        ],
+        "operationId": "updateProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileCreateUpdateRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/priceplan/update/{id}": {
+      "put": {
+        "tags": [
+          "ADMIN - Управление тарифными планами."
+        ],
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PricePlanCreateUpdateRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/myProfile/useSms": {
+      "post": {
+        "tags": [
+          "USER - Управление своими профилями."
+        ],
+        "operationId": "useSms",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UseRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/myProfile/useSeconds": {
+      "post": {
+        "tags": [
+          "USER - Управление своими профилями."
+        ],
+        "operationId": "useSeconds",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UseRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/myProfile/useMegabytes": {
+      "post": {
+        "tags": [
+          "USER - Управление своими профилями."
+        ],
+        "operationId": "useMegabytes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UseRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/myProfile/register": {
+      "post": {
+        "tags": [
+          "USER - Управление своими профилями."
+        ],
+        "operationId": "registerMyProfile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileRegisterRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/myProfile/debit": {
+      "post": {
+        "tags": [
+          "USER - Управление своими профилями."
+        ],
+        "operationId": "debitMyProfile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditDebitRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/myProfile/credit": {
+      "post": {
+        "tags": [
+          "USER - Управление своими профилями."
+        ],
+        "operationId": "creditMyProfile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditDebitRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/myProfile/changePricePlan": {
+      "post": {
+        "tags": [
+          "USER - Управление своими профилями."
+        ],
+        "operationId": "changePricePlan",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PricePlanChangeRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/sign_up": {
+      "post": {
+        "tags": [
+          "OPEN - Регистрация и Авторизация"
+        ],
+        "operationId": "signUp",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/sign_in": {
+      "post": {
+        "tags": [
+          "OPEN - Регистрация и Авторизация"
+        ],
+        "operationId": "signIn",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/profile/create": {
+      "post": {
+        "tags": [
+          "ADMIN - Управление профилями абонентов."
+        ],
+        "operationId": "createProfile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileCreateUpdateRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/priceplan/create": {
+      "post": {
+        "tags": [
+          "ADMIN - Управление тарифными планами."
+        ],
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PricePlanCreateUpdateRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user": {
+      "get": {
+        "tags": [
+          "USER - Свой аккаунт."
+        ],
+        "operationId": "getCurrentUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/myProfile/byMsisdn/{msisdn}": {
+      "get": {
+        "tags": [
+          "USER - Управление своими профилями."
+        ],
+        "operationId": "getMyProfileByMsisdn",
+        "parameters": [
+          {
+            "name": "msisdn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/myProfile/byId/{id}": {
+      "get": {
+        "tags": [
+          "USER - Управление своими профилями."
+        ],
+        "operationId": "getMyProfileById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/myProfile/all": {
+      "get": {
+        "tags": [
+          "USER - Управление своими профилями."
+        ],
+        "operationId": "getAllMyProfiles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/byMsisdn/{msisdn}": {
+      "get": {
+        "tags": [
+          "USER - Управление своими профилями."
+        ],
+        "operationId": "getProfileByMsisdn",
+        "parameters": [
+          {
+            "name": "msisdn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/byId/{id}": {
+      "get": {
+        "tags": [
+          "USER - Управление своими профилями."
+        ],
+        "operationId": "getProfileById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/all": {
+      "get": {
+        "tags": [
+          "USER - Управление своими профилями."
+        ],
+        "operationId": "getAllProfiles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/priceplan/{id}": {
+      "get": {
+        "tags": [
+          "USER - Тарифные планы."
+        ],
+        "operationId": "getPricePlanById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/priceplan/all": {
+      "get": {
+        "tags": [
+          "USER - Тарифные планы."
+        ],
+        "operationId": "getAllPricePlans",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/balance/{id}": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление балансами абонентов."
+        ],
+        "operationId": "getBalanceById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/balance/all": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление балансами абонентов."
+        ],
+        "operationId": "getAllBalances",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/users/getByUsername/{username}": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление пользователями."
+        ],
+        "operationId": "getUserByUsername",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/users/getByMsisdn/{msisdn}": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление пользователями."
+        ],
+        "operationId": "getUserByMsisdn",
+        "parameters": [
+          {
+            "name": "msisdn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/users/getById/{id}": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление пользователями."
+        ],
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/users/all": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление пользователями."
+        ],
+        "operationId": "getAllUsers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/users/all-deleted": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление пользователями."
+        ],
+        "operationId": "getAllDeletedUsers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/profile/{id}": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление профилями абонентов."
+        ],
+        "operationId": "getProfileById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/profile/getByMsisdn/{msisdn}": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление профилями абонентов."
+        ],
+        "operationId": "getProfileByMsisdn_1",
+        "parameters": [
+          {
+            "name": "msisdn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/profile/all": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление профилями абонентов."
+        ],
+        "operationId": "getAllProfiles_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/profile/all-removed": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление профилями абонентов."
+        ],
+        "operationId": "getAllRemovedProfiles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/priceplan/{id}": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление тарифными планами."
+        ],
+        "operationId": "getPricePlanById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/priceplan/getByName/{name}": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление тарифными планами."
+        ],
+        "operationId": "getPricePlanByName",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/priceplan/all": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление тарифными планами."
+        ],
+        "operationId": "getAllPricePlan",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/priceplan/all-removed": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление тарифными планами."
+        ],
+        "operationId": "getAllRemovedPricePlan",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/counter/{id}": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление каунтерами абонентов."
+        ],
+        "operationId": "getCounterById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/counter/all": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление каунтерами абонентов."
+        ],
+        "operationId": "getAllCounters",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/counter/all-active": {
+      "get": {
+        "tags": [
+          "ADMIN - Управление каунтерами абонентов."
+        ],
+        "operationId": "getAllActiveCounters",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/users/delete/{id}": {
+      "delete": {
+        "tags": [
+          "ADMIN - Управление пользователями."
+        ],
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/users/delete/all": {
+      "delete": {
+        "tags": [
+          "ADMIN - Управление пользователями."
+        ],
+        "operationId": "deleteAllUsers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/profile/delete/{id}": {
+      "delete": {
+        "tags": [
+          "ADMIN - Управление профилями абонентов."
+        ],
+        "operationId": "deleteProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/profile/delete/all": {
+      "delete": {
+        "tags": [
+          "ADMIN - Управление профилями абонентов."
+        ],
+        "operationId": "deleteAllProfiles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/priceplan/delete/{id}": {
+      "delete": {
+        "tags": [
+          "ADMIN - Управление тарифными планами."
+        ],
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/priceplan/delete/all": {
+      "delete": {
+        "tags": [
+          "ADMIN - Управление тарифными планами."
+        ],
+        "operationId": "deleteAll",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BalanceUpdateRequestDto": {
+        "required": [
+          "amount"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "UserAdminUpdateRequestDto": {
+        "required": [
+          "deleted",
+          "firstName",
+          "lastName",
+          "password",
+          "role",
+          "telegramChatId",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "ROLE_USER",
+              "ROLE_ADMIN",
+              "ROLE_MANAGER"
+            ]
+          },
+          "telegramChatId": {
+            "type": "string"
+          }
+        }
+      },
+      "ProfileCreateUpdateRequestDto": {
+        "required": [
+          "msisdn",
+          "pricePlanId",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "msisdn": {
+            "maxLength": 12,
+            "minLength": 12,
+            "pattern": "^99680\\d{7}$",
+            "type": "string"
+          },
+          "pricePlanId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "PricePlanCreateUpdateRequestDto": {
+        "required": [
+          "megabytes",
+          "name",
+          "price",
+          "seconds",
+          "sms",
+          "validityDate"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "megabytes": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "seconds": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sms": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "validityDate": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UseRequestDto": {
+        "required": [
+          "msisdn",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "msisdn": {
+            "maxLength": 12,
+            "minLength": 12,
+            "pattern": "^99680\\d{7}$",
+            "type": "string"
+          },
+          "value": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ProfileRegisterRequestDto": {
+        "required": [
+          "msisdn",
+          "pricePlanId"
+        ],
+        "type": "object",
+        "properties": {
+          "msisdn": {
+            "maxLength": 12,
+            "minLength": 12,
+            "pattern": "^99680\\d{7}$",
+            "type": "string"
+          },
+          "pricePlanId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "CreditDebitRequestDto": {
+        "required": [
+          "amount",
+          "msisdn"
+        ],
+        "type": "object",
+        "properties": {
+          "msisdn": {
+            "maxLength": 12,
+            "minLength": 12,
+            "pattern": "^99680\\d{7}$",
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "PricePlanChangeRequestDto": {
+        "required": [
+          "msisdn",
+          "pricePlanId"
+        ],
+        "type": "object",
+        "properties": {
+          "msisdn": {
+            "maxLength": 12,
+            "minLength": 12,
+            "pattern": "^99680\\d{7}$",
+            "type": "string"
+          },
+          "pricePlanId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "SignUpRequestDto": {
+        "required": [
+          "firstName",
+          "lastName",
+          "password",
+          "telegramChatId",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "telegramChatId": {
+            "type": "string"
+          }
+        }
+      },
+      "SignInRequestDto": {
+        "required": [
+          "password",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
