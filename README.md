@@ -1,148 +1,294 @@
-# Billing API Test Framework# Billing API Test Framework
+# Billing API Test Framework# Billing API Test Framework# Billing API Test Framework
 
 
 
-REST Assured автотесты для проверки соответствия Billing API спецификации OpenAPI 3.0.1.REST Assured автотесты для проверки соответствия Billing API спецификации OpenAPI 3.0.1.
+REST Assured автотесты для проверки соответствия Billing API спецификации OpenAPI 3.0.1.
 
 
 
-![Java](https://img.shields.io/badge/Java-21-orange)![Java](https://img.shields.io/badge/Java-21-orange)
+![Java](https://img.shields.io/badge/Java-21-orange)REST Assured автотесты для проверки соответствия Billing API спецификации OpenAPI 3.0.1.REST Assured автотесты для проверки соответствия Billing API спецификации OpenAPI 3.0.1.
+
+![Maven](https://img.shields.io/badge/Maven-3.9.11-blue)
+
+![TestNG](https://img.shields.io/badge/TestNG-7.10.2-green)
+
+![Tests](https://img.shields.io/badge/tests-30-blue)
+
+![Passing](https://img.shields.io/badge/passing-26-success)![Java](https://img.shields.io/badge/Java-21-orange)![Java](https://img.shields.io/badge/Java-21-orange)
+
+![Bugs Found](https://img.shields.io/badge/bugs%20found-4-red)
 
 ![Maven](https://img.shields.io/badge/Maven-3.9.11-blue)![Maven](https://img.shields.io/badge/Maven-3.9.11-blue)
 
+## Описание
+
 ![TestNG](https://img.shields.io/badge/TestNG-7.10.2-green)![TestNG](https://img.shields.io/badge/TestNG-7.10.2-green)
+
+Фреймворк для автоматизированного тестирования Billing API. Тесты написаны строго по OpenAPI спецификации. Падающие тесты = найденные баги в API.
 
 ![Tests](https://img.shields.io/badge/tests-30-blue)![Tests](https://img.shields.io/badge/tests-30-blue)
 
-![Passing](https://img.shields.io/badge/passing-26-success)![Passing](https://img.shields.io/badge/passing-26-success)
+**Покрытие:**
 
-![Bugs Found](https://img.shields.io/badge/bugs%20found-4-red)![Bugs Found](https://img.shields.io/badge/bugs%20found-4-red)
+- 30 автотестов для admin endpoints![Passing](https://img.shields.io/badge/passing-26-success)![Passing](https://img.shields.io/badge/passing-26-success)
+
+- Balance API: 9 тестов
+
+- Counter API: 7 тестов  ![Bugs Found](https://img.shields.io/badge/bugs%20found-4-red)![Bugs Found](https://img.shields.io/badge/bugs%20found-4-red)
+
+- Profile API: 14 тестов
+
+- Найдено 4 бага в API
 
 
 
-## Описание## Описание
+## Быстрый старт## Описание## Описание
 
 
 
-Фреймворк для автоматизированного тестирования Billing API. Тесты написаны строго по OpenAPI спецификации. Падающие тесты = найденные баги в API.Фреймворк для автоматизированного тестирования Billing API. Тесты написаны строго по OpenAPI спецификации. Падающие тесты = найденные баги в API.
+```bash
+
+mvn clean test
+
+```Фреймворк для автоматизированного тестирования Billing API. Тесты написаны строго по OpenAPI спецификации. Падающие тесты = найденные баги в API.Фреймворк для автоматизированного тестирования Billing API. Тесты написаны строго по OpenAPI спецификации. Падающие тесты = найденные баги в API.
 
 
 
-**Покрытие:****Покрытие:**
+Результат: 30 tests run, 26 passed, 4 failed
 
-- 30 автотестов для admin endpoints- 30 автотестов для admin endpoints
 
-- Balance API: 9 тестов- Balance API: 9 тестов
 
-- Counter API: 7 тестов  - Counter API: 7 тестов  
+## Найденные баги**Покрытие:****Покрытие:**
+
+
+
+| Эндпоинт | Спека | Факт | Приоритет |- 30 автотестов для admin endpoints- 30 автотестов для admin endpoints
+
+|----------|-------|------|-----------|
+
+| POST /api/admin/profile/create | 200 | 201 | Средний |- Balance API: 9 тестов- Balance API: 9 тестов
+
+| DELETE /api/admin/profile/delete/{id} | 200 | 204 | Средний |
+
+| PUT /api/balance/update/{id} | 200 | 400 | Высокий |- Counter API: 7 тестов  - Counter API: 7 тестов  
+
+| GET /api/admin/counter/all-active | 200 | 204 | Средний |
 
 - Profile API: 14 тестов- Profile API: 14 тестов
 
+## Технологии
+
 - Найдено 4 бага в API- Найдено 4 бага в API
 
+- Java 21
 
+- Maven 3.9.11
 
-## Быстрый старт## Быстрый старт
+- TestNG 7.10.2
 
+- REST Assured 5.5.0## Быстрый старт## Быстрый старт
 
+- Jackson 2.18.2
 
-```bash```bash
-
-mvn clean testmvn clean test
-
-``````
-
-
-
-Результат: 30 tests run, 26 passed, 4 failedРезультат: 30 tests run, 26 passed, 4 failed
+- Datafaker 2.4.2
 
 
 
-## Найденные баги## Найденные баги
+## Структура```bash```bash
 
 
 
-| # | Эндпоинт | Спека | Факт | Приоритет || # | Эндпоинт | Спека | Факт | Приоритет |
+```mvn clean testmvn clean test
 
-|---|----------|-------|------|-----------||---|----------|-------|------|-----------|
+src/test/java/auc/
 
-| 1 | `POST /api/admin/profile/create` | 200 | 201 | Средний || 1 | `POST /api/admin/profile/create` | 200 | 201 | Средний |
+├── tests/``````
 
-| 2 | `DELETE /api/admin/profile/delete/{id}` | 200 | 204 | Средний || 2 | `DELETE /api/admin/profile/delete/{id}` | 200 | 204 | Средний |
+│   ├── BalanceApiTest.java
 
-| 3 | `PUT /api/balance/update/{id}` | 200 | 400 | Высокий || 3 | `PUT /api/balance/update/{id}` | 200 | 400 | Высокий |
+│   ├── CounterApiTest.java
+
+│   └── ProfileApiTest.java
+
+├── utils/Результат: 30 tests run, 26 passed, 4 failedРезультат: 30 tests run, 26 passed, 4 failed
+
+│   ├── ApiAssertions.java
+
+│   ├── RequestBuilder.java
+
+│   ├── ResponseExtractor.java
+
+│   └── TestDataGenerator.java## Найденные баги## Найденные баги
+
+├── dto/
+
+│   ├── request/
+
+│   └── response/
+
+├── BaseApiTest.java| # | Эндпоинт | Спека | Факт | Приоритет || # | Эндпоинт | Спека | Факт | Приоритет |
+
+└── TestConfig.java
+
+```|---|----------|-------|------|-----------||---|----------|-------|------|-----------|
+
+
+
+## Покрытые эндпоинты| 1 | `POST /api/admin/profile/create` | 200 | 201 | Средний || 1 | `POST /api/admin/profile/create` | 200 | 201 | Средний |
+
+
+
+### Balance - 9 тестов| 2 | `DELETE /api/admin/profile/delete/{id}` | 200 | 204 | Средний || 2 | `DELETE /api/admin/profile/delete/{id}` | 200 | 204 | Средний |
+
+- GET /api/balance/{id}
+
+- GET /api/balance/all| 3 | `PUT /api/balance/update/{id}` | 200 | 400 | Высокий || 3 | `PUT /api/balance/update/{id}` | 200 | 400 | Высокий |
+
+- PUT /api/balance/update/{id}
 
 | 4 | `GET /api/admin/counter/all-active` | 200 | 204 | Средний || 4 | `GET /api/admin/counter/all-active` | 200 | 204 | Средний |
 
+### Counter - 7 тестов
 
+- GET /api/admin/counter/{id}
 
-## Технологии## Технологии
+- GET /api/admin/counter/all
 
-
-
-- Java 21- Java 21
-
-- Maven 3.9.11- Maven 3.9.11
-
-- TestNG 7.10.2- TestNG 7.10.2
-
-- REST Assured 5.5.0- REST Assured 5.5.0
-
-- Jackson 2.18.2- Jackson 2.18.2
-
-- Datafaker 2.4.2- Datafaker 2.4.2
+- GET /api/admin/counter/all-active## Технологии## Технологии
 
 
 
-## Структура## Структура
+### Profile - 14 тестов
+
+- POST /api/admin/profile/create
+
+- GET /api/admin/profile/{id}- Java 21- Java 21
+
+- GET /api/admin/profile/all
+
+- PUT /api/admin/profile/update/{id}- Maven 3.9.11- Maven 3.9.11
+
+- DELETE /api/admin/profile/delete/{id}
+
+- GET /api/admin/profile/all-removed- TestNG 7.10.2- TestNG 7.10.2
 
 
 
-``````
+## Конфигурация- REST Assured 5.5.0- REST Assured 5.5.0
 
-src/test/java/auc/src/test/java/auc/
 
-├── tests/├── tests/
 
-│   ├── BalanceApiTest.java│   ├── BalanceApiTest.java      # 9 тестов
+Файл `src/test/java/auc/TestConfig.java`:- Jackson 2.18.2- Jackson 2.18.2
 
-│   ├── CounterApiTest.java│   ├── CounterApiTest.java      # 7 тестов
 
-│   └── ProfileApiTest.java│   └── ProfileApiTest.java      # 13 тестов
 
-├── utils/├── utils/
+```java- Datafaker 2.4.2- Datafaker 2.4.2
 
-│   ├── ApiAssertions.java│   ├── ApiAssertions.java       # Проверки статусов
+BASE_URL = "http://195.38.164.168:7173"
+
+ADMIN_USERNAME = "superuser"
+
+ADMIN_PASSWORD = "Admin123!@#"
+
+```## Структура## Структура
+
+
+
+Через параметры:
+
+
+
+```bash``````
+
+mvn test -DbaseUrl=http://localhost:8080 -DadminUsername=admin -DadminPassword=secret
+
+```src/test/java/auc/src/test/java/auc/
+
+
+
+## Документация├── tests/├── tests/
+
+
+
+Полная техническая документация: [FRAMEWORK_DOCUMENTATION.md](FRAMEWORK_DOCUMENTATION.md)│   ├── BalanceApiTest.java│   ├── BalanceApiTest.java      # 9 тестов
+
+
+
+Содержит:│   ├── CounterApiTest.java│   ├── CounterApiTest.java      # 7 тестов
+
+- Полный воркфлоу теста с визуализацией
+
+- Архитектура фреймворка│   └── ProfileApiTest.java│   └── ProfileApiTest.java      # 13 тестов
+
+- Описание классов и методов
+
+- Примеры использования├── utils/├── utils/
+
+- 30 тест-кейсов
+
+- 4 баг-репорта│   ├── ApiAssertions.java│   ├── ApiAssertions.java       # Проверки статусов
+
+- Best practices
 
 │   ├── RequestBuilder.java│   ├── RequestBuilder.java      # Построение запросов
 
+## Запуск тестов
+
 │   ├── ResponseExtractor.java│   ├── ResponseExtractor.java   # Извлечение данных
+
+Все тесты:
 
 │   └── TestDataGenerator.java│   └── TestDataGenerator.java   # Генерация данных
 
-├── dto/├── dto/
+```bash
+
+mvn clean test├── dto/├── dto/
+
+```
 
 │   ├── request/│   ├── request/                 # Request DTOs
 
+Конкретный класс:
+
 │   └── response/│   └── response/                # Response DTOs
 
-├── BaseApiTest.java├── BaseApiTest.java             # Базовый класс
+```bash
 
-└── TestConfig.java└── TestConfig.java              # Конфигурация
+mvn test -Dtest=BalanceApiTest├── BaseApiTest.java├── BaseApiTest.java             # Базовый класс
+
+mvn test -Dtest=CounterApiTest
+
+mvn test -Dtest=ProfileApiTest└── TestConfig.java└── TestConfig.java              # Конфигурация
+
+```
 
 ``````
 
+Результаты: `target/surefire-reports/`
 
+
+
+## Принципы
 
 ## Покрытые эндпоинты## Покрытые эндпоинты
 
+1. Spec-First: тесты строго по OpenAPI спецификации
 
+2. Bug Detection: падающие тесты = баги API
 
-### Balance - 9 тестов### Balance - 9 тестов
+3. Clean Code: минимум кода, максимум читаемости
+
+4. DRY: переиспользуемые утилиты### Balance - 9 тестов### Balance - 9 тестов
+
+5. Simple: плоская структура, без over-engineering
 
 - GET /api/balance/{id}- GET /api/balance/{id}
 
+## Лицензия
+
 - GET /api/balance/all- GET /api/balance/all
+
+MIT
 
 - PUT /api/balance/update/{id}- PUT /api/balance/update/{id}
 

@@ -1,1184 +1,2365 @@
-# Billing API Test Framework - Technical Documentation# Billing API Test Framework - Technical Documentation
+# Billing API Test Framework - Technical Documentation# Billing API Test Framework - Technical Documentation# Billing API Test Framework - Technical Documentation
 
 
 
-Полная техническая документация фреймворка для автоматизированного тестирования Billing API.Полная техническая документация фреймворка для автоматизированного тестирования Billing API.
+Полная техническая документация фреймворка для автоматизированного тестирования Billing API.
 
 
 
-## Содержание## 📚 Содержание
+## СодержаниеПолная техническая документация фреймворка для автоматизированного тестирования Billing API.Полная техническая документация фреймворка для автоматизированного тестирования Billing API.
 
 
 
-1. [Полный воркфлоу теста](#полный-воркфлоу-теста)1. [Полный воркфлоу теста](#полный-воркфлоу-теста)
+1. [Полный воркфлоу теста](#полный-воркфлоу-теста)
 
-2. [Архитектура фреймворка](#архитектура-фреймворка)2. [Архитектура фреймворка](#архитектура-фреймворка)
+2. [Архитектура фреймворка](#архитектура-фреймворка)
 
-3. [Базовые классы](#базовые-классы)3. [Базовые классы](#базовые-классы)
+3. [Базовые классы](#базовые-классы)## Содержание## 📚 Содержание
 
-4. [Утилиты](#утилиты)4. [Утилиты](#утилиты)
+4. [Утилиты](#утилиты)
 
-5. [DTOs](#dtos)5. [DTOs](#dtos)
+5. [DTOs](#dtos)
 
-6. [Тесты](#тесты)6. [Тесты](#тесты)
+6. [Тесты](#тесты)
 
-7. [Тест-кейсы](#тест-кейсы)7. [Тест-кейсы](#тест-кейсы)
+7. [Тест-кейсы](#тест-кейсы)1. [Полный воркфлоу теста](#полный-воркфлоу-теста)1. [Полный воркфлоу теста](#полный-воркфлоу-теста)
 
-8. [Баг-репорты](#баг-репорты)8. [Баг-репорты](#баг-репорты)
+8. [Баг-репорты](#баг-репорты)
 
-9. [Best Practices](#best-practices)9. [Best Practices](#best-practices)
-
-
-
-------
+9. [Best Practices](#best-practices)2. [Архитектура фреймворка](#архитектура-фреймворка)2. [Архитектура фреймворка](#архитектура-фреймворка)
 
 
 
-## Полный воркфлоу теста## Полный воркфлоу теста
+---3. [Базовые классы](#базовые-классы)3. [Базовые классы](#базовые-классы)
 
 
 
-### Пример: testCreateProfile_Success### Пример: testCreateProfile_Success
+## Полный воркфлоу теста4. [Утилиты](#утилиты)4. [Утилиты](#утилиты)
 
 
 
-Разберём пошагово, как выполняется тест создания профиля и какие файлы участвуют в процессе.Разберём пошагово, как выполняется тест создания профиля и какие файлы участвуют в процессе.
+### Пример: testCreateProfile_Success5. [DTOs](#dtos)5. [DTOs](#dtos)
 
 
+
+Разберём пошагово, как выполняется тест создания профиля и какие файлы участвуют в процессе.6. [Тесты](#тесты)6. [Тесты](#тесты)
+
+
+
+#### Шаг 0: Подготовка (Before Class)7. [Тест-кейсы](#тест-кейсы)7. [Тест-кейсы](#тест-кейсы)
+
+
+
+**Файл:** `ProfileApiTest.java`8. [Баг-репорты](#баг-репорты)8. [Баг-репорты](#баг-репорты)
+
+
+
+```java9. [Best Practices](#best-practices)9. [Best Practices](#best-practices)
+
+public class ProfileApiTest extends BaseApiTest {
+
+    
+
+    @BeforeClass
+
+    public void setup() {------
+
+        // Вызывается BaseApiTest.globalSetup()
+
+    }
+
+}
+
+```## Полный воркфлоу теста## Полный воркфлоу теста
+
+
+
+**Что происходит:**
+
+
+
+1. **BaseApiTest.globalSetup()** ← `BaseApiTest.java`### Пример: testCreateProfile_Success### Пример: testCreateProfile_Success
+
+   ```java
+
+   @BeforeClass
+
+   public void globalSetup() {
+
+       RestAssured.baseURI = TestConfig.BASE_URL;Разберём пошагово, как выполняется тест создания профиля и какие файлы участвуют в процессе.Разберём пошагово, как выполняется тест создания профиля и какие файлы участвуют в процессе.
+
+       adminToken = getAdminToken();
+
+   }
+
+   ```
 
 #### Шаг 0: Подготовка (Before Class)#### 🎬 Шаг 0: Подготовка (Before Class)
 
+2. **getAdminToken()** ← `BaseApiTest.java`
 
+   - Создаёт `AuthSignInRequest`
 
-**Файл:** `ProfileApiTest.java`**Файл:** `ProfileApiTest.java`
+   - Вызывает `RequestBuilder.unauthorized()`
 
+   - Отправляет POST на `TestConfig.AUTH_SIGN_IN`**Файл:** `ProfileApiTest.java`**Файл:** `ProfileApiTest.java`
 
+   - Если 401, создаёт `AuthSignUpRequest`
+
+   - Генерирует данные через `TestDataGenerator`
+
+   - Извлекает токен через `ResponseExtractor.extractToken()`
 
 ```java```java
 
-public class ProfileApiTest extends BaseApiTest {public class ProfileApiTest extends BaseApiTest {
+**Файлы задействованы:**
+
+- BaseApiTest.javapublic class ProfileApiTest extends BaseApiTest {public class ProfileApiTest extends BaseApiTest {
+
+- TestConfig.java
+
+- RequestBuilder.java        
+
+- AuthSignInRequest.java
+
+- AuthSignUpRequest.java    @BeforeClass    @BeforeClass
+
+- TestDataGenerator.java
+
+- ResponseExtractor.java    public void setup() {    public void setup() {
+
+
+
+#### Шаг 1: Запуск теста        // Вызывается BaseApiTest.globalSetup()        // Вызывается BaseApiTest.globalSetup()
+
+
+
+**Файл:** `ProfileApiTest.java`    }    }
+
+
+
+```java}}
+
+@Test(priority = 1, description = "POST /api/admin/profile/create - успешное создание профиля")
+
+public void testCreateProfile_Success() {``````
+
+    // Начало теста
+
+```
+
+
+
+**Что происходит:****Что происходит:****Что происходит:**
+
+
+
+TestNG видит аннотацию `@Test` и запускает метод.
+
+
+
+**Файлы задействованы:**1. **BaseApiTest.globalSetup()** ← `BaseApiTest.java`1. **BaseApiTest.globalSetup()** ← `BaseApiTest.java`
+
+- ProfileApiTest.java
+
+- pom.xml (зависимость TestNG 7.10.2)   ```java   ```java
+
+
+
+#### Шаг 2: Генерация тестовых данных   @BeforeClass   @BeforeClass
+
+
+
+```java   public void globalSetup() {   public void globalSetup() {
+
+String msisdn = TestDataGenerator.generateMsisdn();
+
+```       RestAssured.baseURI = TestConfig.BASE_URL; // ← TestConfig.java       RestAssured.baseURI = TestConfig.BASE_URL; // ← TestConfig.java
+
+
+
+**Файл:** `utils/TestDataGenerator.java`       adminToken = getAdminToken(); // ← BaseApiTest.java       adminToken = getAdminToken(); // ← BaseApiTest.java
+
+
+
+```java   }   }
+
+public class TestDataGenerator {
+
+    private static final Faker faker = new Faker();   ```   ```
+
+    
+
+    public static String generateMsisdn() {
+
+        return "99680" + faker.number().digits(7);
+
+    }2. **getAdminToken()** ← `BaseApiTest.java`2. **getAdminToken()** ← `BaseApiTest.java`
+
+}
+
+```   - Создаёт `AuthSignInRequest` ← `dto/request/AuthSignInRequest.java`   - Создаёт `AuthSignInRequest` ← `dto/request/AuthSignInRequest.java`
+
+
+
+**Что происходит:**   - Вызывает `RequestBuilder.unauthorized()` ← `utils/RequestBuilder.java`   - Вызывает `RequestBuilder.unauthorized()` ← `utils/RequestBuilder.java`
+
+
+
+1. `Faker` из библиотеки Datafaker генерирует случайные 7 цифр   - Отправляет POST на `TestConfig.AUTH_SIGN_IN` ← `TestConfig.java`   - Отправляет POST на `TestConfig.AUTH_SIGN_IN` ← `TestConfig.java`
+
+2. Добавляется префикс "99680"
+
+3. Результат: уникальный MSISDN "996801234567"   - Если 401, создаёт `AuthSignUpRequest` ← `dto/request/AuthSignUpRequest.java`   - Если 401, создаёт `AuthSignUpRequest` ← `dto/request/AuthSignUpRequest.java`
+
+
+
+**Файлы задействованы:**   - Генерирует данные через `TestDataGenerator` ← `utils/TestDataGenerator.java`   - Генерирует данные через `TestDataGenerator` ← `utils/TestDataGenerator.java`
+
+- TestDataGenerator.java
+
+- pom.xml (зависимость Datafaker 2.4.2)   - Извлекает токен через `ResponseExtractor.extractToken()` ← `utils/ResponseExtractor.java`   - Извлекает токен через `ResponseExtractor.extractToken()` ← `utils/ResponseExtractor.java`
+
+
+
+#### Шаг 3: Построение Request DTO
+
+
+
+```java**Файлы задействованы:****Файлы задействованы:**
+
+ProfileCreateRequest body = ProfileCreateRequest.builder()
+
+    .msisdn(msisdn)- BaseApiTest.java- ✅ `BaseApiTest.java`
+
+    .userId(1L)
+
+    .pricePlanId(1L)- TestConfig.java- ✅ `TestConfig.java`
+
+    .build();
+
+```- RequestBuilder.java- ✅ `RequestBuilder.java`
+
+
+
+**Файл:** `dto/request/ProfileCreateRequest.java`- AuthSignInRequest.java- ✅ `AuthSignInRequest.java`
+
+
+
+```java- AuthSignUpRequest.java- ✅ `AuthSignUpRequest.java`
+
+public class ProfileCreateRequest {
+
+    @JsonProperty("msisdn")- TestDataGenerator.java- ✅ `TestDataGenerator.java`
+
+    private String msisdn;
+
+    - ResponseExtractor.java- ✅ `ResponseExtractor.java`
+
+    @JsonProperty("userId")
+
+    private Long userId;
+
+    
+
+    @JsonProperty("pricePlanId")#### Шаг 1: Запуск теста#### 🎬 Шаг 1: Запуск теста
+
+    private Long pricePlanId;
+
+    
+
+    public static Builder builder() {
+
+        return new Builder();**Файл:** `ProfileApiTest.java`**Файл:** `ProfileApiTest.java`
+
+    }
+
+    
+
+    public static class Builder {
+
+        private final ProfileCreateRequest request = new ProfileCreateRequest();```java```java
 
         
 
-    @BeforeClass    @BeforeClass
+        public Builder msisdn(String msisdn) {@Test(priority = 1, description = "POST /api/admin/profile/create - успешное создание профиля")@Test(priority = 1, description = "POST /api/admin/profile/create - успешное создание профиля")
 
-    public void setup() {    public void setup() {
+            request.msisdn = msisdn;
 
-        // Вызывается BaseApiTest.globalSetup()        // Вызывается BaseApiTest.globalSetup()
+            return this;public void testCreateProfile_Success() {public void testCreateProfile_Success() {
 
-    }    }
+        }
 
-}}
+            // Начало теста    // Начало теста
 
-``````
+        public Builder userId(Long userId) {
 
+            request.userId = userId;``````
 
+            return this;
 
-**Что происходит:****Что происходит:**
+        }
 
+        
 
+        public Builder pricePlanId(Long pricePlanId) {**Что происходит:****Что происходит:**
 
-1. **BaseApiTest.globalSetup()** ← `BaseApiTest.java`1. **BaseApiTest.globalSetup()** ← `BaseApiTest.java`
+            request.pricePlanId = pricePlanId;
 
-   ```java   ```java
+            return this;
 
-   @BeforeClass   @BeforeClass
+        }
 
-   public void globalSetup() {   public void globalSetup() {
+        TestNG видит аннотацию `@Test` и запускает метод.TestNG видит аннотацию `@Test` и запускает метод.
 
-       RestAssured.baseURI = TestConfig.BASE_URL; // ← TestConfig.java       RestAssured.baseURI = TestConfig.BASE_URL; // ← TestConfig.java
+        public ProfileCreateRequest build() {
 
-       adminToken = getAdminToken(); // ← BaseApiTest.java       adminToken = getAdminToken(); // ← BaseApiTest.java
+            return request;
 
-   }   }
+        }
 
-   ```   ```
+    }**Файлы задействованы:****Файлы задействованы:**
 
+}
 
+```- ProfileApiTest.java- ✅ `ProfileApiTest.java`
 
-2. **getAdminToken()** ← `BaseApiTest.java`2. **getAdminToken()** ← `BaseApiTest.java`
 
-   - Создаёт `AuthSignInRequest` ← `dto/request/AuthSignInRequest.java`   - Создаёт `AuthSignInRequest` ← `dto/request/AuthSignInRequest.java`
 
-   - Вызывает `RequestBuilder.unauthorized()` ← `utils/RequestBuilder.java`   - Вызывает `RequestBuilder.unauthorized()` ← `utils/RequestBuilder.java`
+**Что происходит:**- pom.xml (зависимость TestNG 7.10.2)- ✅ `pom.xml` (зависимость TestNG 7.10.2)
 
-   - Отправляет POST на `TestConfig.AUTH_SIGN_IN` ← `TestConfig.java`   - Отправляет POST на `TestConfig.AUTH_SIGN_IN` ← `TestConfig.java`
 
-   - Если 401, создаёт `AuthSignUpRequest` ← `dto/request/AuthSignUpRequest.java`   - Если 401, создаёт `AuthSignUpRequest` ← `dto/request/AuthSignUpRequest.java`
 
-   - Генерирует данные через `TestDataGenerator` ← `utils/TestDataGenerator.java`   - Генерирует данные через `TestDataGenerator` ← `utils/TestDataGenerator.java`
+1. Builder создаёт новый объект ProfileCreateRequest
 
-   - Извлекает токен через `ResponseExtractor.extractToken()` ← `utils/ResponseExtractor.java`   - Извлекает токен через `ResponseExtractor.extractToken()` ← `utils/ResponseExtractor.java`
+2. Заполняет поля через цепочку вызовов
 
+3. Возвращает готовый объект#### Шаг 2: Генерация тестовых данных#### 🎬 Шаг 2: Генерация тестовых данных
 
 
-**Файлы задействованы:****Файлы задействованы:**
 
-- BaseApiTest.java- ✅ `BaseApiTest.java`
+**Результат:** Объект ready для сериализации в JSON
 
-- TestConfig.java- ✅ `TestConfig.java`
 
-- RequestBuilder.java- ✅ `RequestBuilder.java`
 
-- AuthSignInRequest.java- ✅ `AuthSignInRequest.java`
+**Файлы задействованы:**```java```java
 
-- AuthSignUpRequest.java- ✅ `AuthSignUpRequest.java`
-
-- TestDataGenerator.java- ✅ `TestDataGenerator.java`
-
-- ResponseExtractor.java- ✅ `ResponseExtractor.java`
-
-
-
-#### Шаг 1: Запуск теста#### 🎬 Шаг 1: Запуск теста
-
-
-
-**Файл:** `ProfileApiTest.java`**Файл:** `ProfileApiTest.java`
-
-
-
-```java```java
-
-@Test(priority = 1, description = "POST /api/admin/profile/create - успешное создание профиля")@Test(priority = 1, description = "POST /api/admin/profile/create - успешное создание профиля")
-
-public void testCreateProfile_Success() {public void testCreateProfile_Success() {
-
-    // Начало теста    // Начало теста
-
-``````
-
-
-
-**Что происходит:****Что происходит:**
-
-
-
-TestNG видит аннотацию `@Test` и запускает метод.TestNG видит аннотацию `@Test` и запускает метод.
-
-
-
-**Файлы задействованы:****Файлы задействованы:**
-
-- ProfileApiTest.java- ✅ `ProfileApiTest.java`
-
-- pom.xml (зависимость TestNG 7.10.2)- ✅ `pom.xml` (зависимость TestNG 7.10.2)
-
-
-
-#### Шаг 2: Генерация тестовых данных#### 🎬 Шаг 2: Генерация тестовых данных
-
-
-
-```java```java
+- ProfileCreateRequest.java
 
 String msisdn = TestDataGenerator.generateMsisdn();String msisdn = TestDataGenerator.generateMsisdn();
 
+#### Шаг 4: Построение HTTP запроса
+
 ``````
 
+```java
+
+Response response = RequestBuilder.authorized(adminToken)
+
+    .body(body)
+
+    .post(TestConfig.PROFILE_CREATE);**Файл:** `utils/TestDataGenerator.java`**Файл:** `utils/TestDataGenerator.java`
+
+```
 
 
-**Файл:** `utils/TestDataGenerator.java`**Файл:** `utils/TestDataGenerator.java`
 
-
+**Файл:** `utils/RequestBuilder.java`
 
 ```java```java
 
-public class TestDataGenerator {public class TestDataGenerator {
+```java
 
-    private static final Faker faker = new Faker();    private static final Faker faker = new Faker();
+public class RequestBuilder {public class TestDataGenerator {public class TestDataGenerator {
 
-        
+    public static RequestSpecification authorized(String token) {
 
-    public static String generateMsisdn() {    public static String generateMsisdn() {
+        return given()    private static final Faker faker = new Faker();    private static final Faker faker = new Faker();
+
+            .contentType(JSON)
+
+            .header("Authorization", "Bearer " + token);        
+
+    }
+
+}    public static String generateMsisdn() {    public static String generateMsisdn() {
+
+```
 
         return "99680" + faker.number().digits(7);        return "99680" + faker.number().digits(7);
 
+**Что происходит:**
+
         // Возвращает: "996801234567"        // Возвращает: "996801234567"
 
-    }    }
+1. RequestBuilder.authorized() создаёт REST Assured RequestSpecification
 
-}}
+2. Устанавливает Content-Type: application/json    }    }
+
+3. Добавляет header Authorization: Bearer eyJhbGc...
+
+4. .body(body) ← Jackson сериализует ProfileCreateRequest в JSON}}
+
+5. .post() получает URL из TestConfig.PROFILE_CREATE
 
 ``````
 
+**Файл:** `TestConfig.java`
 
 
-**Что происходит:****Что происходит:**
+
+```java
+
+public static final String PROFILE_CREATE = "/api/admin/profile/create";**Что происходит:****Что происходит:**
+
+```
 
 
+
+**REST Assured формирует запрос:**
 
 1. `Faker` из библиотеки Datafaker генерирует случайные 7 цифр1. `Faker` из библиотеки Datafaker генерирует случайные 7 цифр
 
-2. Добавляется префикс "99680"2. Добавляется префикс "99680"
+```http
 
-3. Результат: уникальный MSISDN `"996801234567"`3. Результат: уникальный MSISDN `"996801234567"`
+POST http://195.38.164.168:7173/api/admin/profile/create2. Добавляется префикс "99680"2. Добавляется префикс "99680"
+
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...3. Результат: уникальный MSISDN `"996801234567"`3. Результат: уникальный MSISDN `"996801234567"`
 
 
 
-**Файлы задействованы:****Файлы задействованы:**
+{
 
-- TestDataGenerator.java- ✅ `TestDataGenerator.java`
+  "msisdn": "996801234567",
+
+  "userId": 1,**Файлы задействованы:****Файлы задействованы:**
+
+  "pricePlanId": 1
+
+}- TestDataGenerator.java- ✅ `TestDataGenerator.java`
+
+```
 
 - pom.xml (зависимость Datafaker 2.4.2)- ✅ `pom.xml` (зависимость Datafaker 2.4.2)
 
+**Файлы задействованы:**
+
+- RequestBuilder.java
+
+- TestConfig.java
+
+- ProfileCreateRequest.java (сериализация)#### Шаг 3: Построение Request DTO#### 🎬 Шаг 3: Построение Request DTO
+
+- pom.xml (REST Assured 5.5.0, Jackson 2.18.2)
 
 
-#### Шаг 3: Построение Request DTO#### 🎬 Шаг 3: Построение Request DTO
 
-
+#### Шаг 5: Отправка запроса и получение ответа
 
 ```java```java
+
+**Что происходит:**
 
 ProfileCreateRequest body = ProfileCreateRequest.builder()ProfileCreateRequest body = ProfileCreateRequest.builder()
 
-    .msisdn(msisdn)    .msisdn(msisdn)
+1. REST Assured отправляет HTTP POST запрос на сервер
+
+2. Сервер обрабатывает запрос    .msisdn(msisdn)    .msisdn(msisdn)
+
+3. Возвращается HTTP ответ:
 
     .userId(1L)    .userId(1L)
 
-    .pricePlanId(1L)    .pricePlanId(1L)
+```http
+
+HTTP/1.1 201 Created    .pricePlanId(1L)    .pricePlanId(1L)
+
+Content-Type: application/json
 
     .build();    .build();
 
-``````
+{
 
+  "code": "OK",``````
 
+  "content": {
 
-**Файл:** `dto/request/ProfileCreateRequest.java`**Файл:** `dto/request/ProfileCreateRequest.java`
+    "id": 42,
 
+    "msisdn": "996801234567",
 
+    "userId": 1,**Файл:** `dto/request/ProfileCreateRequest.java`**Файл:** `dto/request/ProfileCreateRequest.java`
 
-```java```java
+    "pricePlanId": 1,
 
-public class ProfileCreateRequest {public class ProfileCreateRequest {
+    "status": "ACTIVE",
+
+    "createdAt": "2025-11-02T10:30:00",
+
+    "updatedAt": "2025-11-02T10:30:00"```java```java
+
+  }
+
+}public class ProfileCreateRequest {public class ProfileCreateRequest {
+
+```
 
     @JsonProperty("msisdn")    @JsonProperty("msisdn")
 
+4. REST Assured парсит ответ в объект Response
+
     private String msisdn;    private String msisdn;
 
-        
+**Файлы задействованы:**
 
-    @JsonProperty("userId")    @JsonProperty("userId")
+- pom.xml (REST Assured HTTP клиент)        
 
-    private Long userId;    private Long userId;
 
-        
 
-    @JsonProperty("pricePlanId")    @JsonProperty("pricePlanId")
+#### Шаг 6: Проверка статус-кода    @JsonProperty("userId")    @JsonProperty("userId")
 
-    private Long pricePlanId;    private Long pricePlanId;
 
-        
 
-    public static Builder builder() {    public static Builder builder() {
+```java    private Long userId;    private Long userId;
 
-        return new Builder();        return new Builder();
+ApiAssertions.assertOkResponse(response);
 
-    }    }
+```        
 
-        
 
-    public static class Builder {    public static class Builder {
 
-        private final ProfileCreateRequest request = new ProfileCreateRequest();        private final ProfileCreateRequest request = new ProfileCreateRequest();
+**Файл:** `utils/ApiAssertions.java`    @JsonProperty("pricePlanId")    @JsonProperty("pricePlanId")
 
-                
 
-        public Builder msisdn(String msisdn) {        public Builder msisdn(String msisdn) {
 
-            request.msisdn = msisdn;            request.msisdn = msisdn;
+```java    private Long pricePlanId;    private Long pricePlanId;
 
-            return this;            return this;
+public class ApiAssertions {
 
-        }        }
+    public static void assertOkResponse(Response response) {        
 
-                
+        assertStatus(response, 200);
+
+            public static Builder builder() {    public static Builder builder() {
+
+        String body = safeBody(response);
+
+                return new Builder();        return new Builder();
+
+        Assert.assertEquals(
+
+            response.jsonPath().getString("code"),     }    }
+
+            "OK", 
+
+            "code != OK. Body: " + body        
+
+        );
+
+            public static class Builder {    public static class Builder {
+
+        Assert.assertNotNull(
+
+            response.jsonPath().get("content"),         private final ProfileCreateRequest request = new ProfileCreateRequest();        private final ProfileCreateRequest request = new ProfileCreateRequest();
+
+            "content is null. Body: " + body
+
+        );                
+
+    }
+
+            public Builder msisdn(String msisdn) {        public Builder msisdn(String msisdn) {
+
+    private static void assertStatus(Response response, int expected) {
+
+        Assert.assertEquals(            request.msisdn = msisdn;            request.msisdn = msisdn;
+
+            response.getStatusCode(), 
+
+            expected,             return this;            return this;
+
+            "Unexpected status. Body: " + safeBody(response)
+
+        );        }        }
+
+    }
+
+}                
+
+```
 
         public Builder userId(Long userId) {        public Builder userId(Long userId) {
 
+**Что происходит:**
+
             request.userId = userId;            request.userId = userId;
 
-            return this;            return this;
+1. assertStatus(200) проверяет код ответа
 
-        }        }
+   - Ожидается: 200            return this;            return this;
 
-                
+   - Реально: 201
 
-        public Builder pricePlanId(Long pricePlanId) {        public Builder pricePlanId(Long pricePlanId) {
+   - ТЕСТ ПАДАЕТ → найден БАГ API        }        }
+
+
+
+2. TestNG выбрасывает AssertionError:                
+
+   ```
+
+   java.lang.AssertionError: Unexpected status. Expected: 200, Actual: 201        public Builder pricePlanId(Long pricePlanId) {        public Builder pricePlanId(Long pricePlanId) {
+
+   ```
 
             request.pricePlanId = pricePlanId;            request.pricePlanId = pricePlanId;
 
-            return this;            return this;
+**Файлы задействованы:**
+
+- ApiAssertions.java            return this;            return this;
+
+- pom.xml (TestNG assertions)
 
         }        }
 
+#### Шаг 7: Извлечение данных (если тест прошёл бы)
+
                 
 
-        public ProfileCreateRequest build() {        public ProfileCreateRequest build() {
+```java
+
+Long createdId = ResponseExtractor.extractId(response);        public ProfileCreateRequest build() {        public ProfileCreateRequest build() {
+
+```
 
             return request;            return request;
 
+**Файл:** `utils/ResponseExtractor.java`
+
         }        }
 
-    }    }
+```java
 
-}}
+public class ResponseExtractor {    }    }
 
-``````
+    public static Long extractId(Response response) {
+
+        return response.jsonPath().getLong("content.id");}}
+
+    }
+
+}``````
+
+```
 
 
+
+**Что происходит:**
 
 **Что происходит:****Что происходит:**
 
+1. JsonPath парсит JSON ответа
 
+2. Извлекает поле content.id
+
+3. Конвертирует в Long
 
 1. Builder создаёт новый объект `ProfileCreateRequest`1. Builder создаёт новый объект `ProfileCreateRequest`
 
-2. Заполняет поля через цепочку вызовов2. Заполняет поля через цепочку вызовов
+**Файлы задействованы:**
+
+- ResponseExtractor.java2. Заполняет поля через цепочку вызовов2. Заполняет поля через цепочку вызовов
+
+- pom.xml (REST Assured JsonPath)
 
 3. Возвращает готовый объект3. Возвращает готовый объект
 
-
-
-**Результат:** Объект ready для сериализации в JSON**Результат:** Объект ready для сериализации в JSON
-
-
-
-**Файлы задействованы:****Файлы задействованы:**
-
-- ProfileCreateRequest.java- ✅ `ProfileCreateRequest.java`
+#### Шаг 8: Cleanup (если тест прошёл бы)
 
 
 
-#### Шаг 4: Построение HTTP запроса#### 🎬 Шаг 4: Построение HTTP запроса
+```java
+
+RequestBuilder.authorized(adminToken)**Результат:** Объект ready для сериализации в JSON**Результат:** Объект ready для сериализации в JSON
+
+    .delete(url(TestConfig.PROFILE_DELETE, createdId));
+
+```
 
 
 
-```java```java
-
-Response response = RequestBuilder.authorized(adminToken)Response response = RequestBuilder.authorized(adminToken)
-
-    .body(body)    .body(body)
-
-    .post(TestConfig.PROFILE_CREATE);    .post(TestConfig.PROFILE_CREATE);
-
-``````
+**Файл:** `BaseApiTest.java`**Файлы задействованы:****Файлы задействованы:**
 
 
+
+```java- ProfileCreateRequest.java- ✅ `ProfileCreateRequest.java`
+
+protected String url(String template, Object... params) {
+
+    String result = template;
+
+    for (Object param : params) {
+
+        result = result.replaceFirst("\\{[^}]+}", String.valueOf(param));#### Шаг 4: Построение HTTP запроса#### 🎬 Шаг 4: Построение HTTP запроса
+
+    }
+
+    return result;
+
+}
+
+``````java```java
+
+
+
+**Что происходит:**Response response = RequestBuilder.authorized(adminToken)Response response = RequestBuilder.authorized(adminToken)
+
+
+
+1. url() подставляет ID в шаблон URL    .body(body)    .body(body)
+
+2. RequestBuilder.authorized() создаёт DELETE запрос
+
+3. Отправляется DELETE для очистки тестовых данных    .post(TestConfig.PROFILE_CREATE);    .post(TestConfig.PROFILE_CREATE);
+
+
+
+**Файлы задействованы:**``````
+
+- BaseApiTest.java
+
+- TestConfig.java
+
+- RequestBuilder.java
 
 **Файл:** `utils/RequestBuilder.java`**Файл:** `utils/RequestBuilder.java`
 
-
-
-```java```java
-
-public class RequestBuilder {public class RequestBuilder {
-
-    public static RequestSpecification authorized(String token) {    public static RequestSpecification authorized(String token) {
-
-        return given()        return given()
-
-            .contentType(JSON)            .contentType(JSON)
-
-            .header("Authorization", "Bearer " + token);            .header("Authorization", "Bearer " + token);
-
-    }    }
-
-}}
-
-``````
+---
 
 
 
-**Что происходит:****Что происходит:**
-
-
-
-1. **RequestBuilder.authorized()** создаёт REST Assured `RequestSpecification`1. **RequestBuilder.authorized()** создаёт REST Assured `RequestSpecification`
-
-2. Устанавливает `Content-Type: application/json`2. Устанавливает `Content-Type: application/json`
-
-3. Добавляет header `Authorization: Bearer eyJhbGc...`3. Добавляет header `Authorization: Bearer eyJhbGc...`
-
-4. `.body(body)` ← Jackson сериализует `ProfileCreateRequest` в JSON4. `.body(body)` ← Jackson сериализует `ProfileCreateRequest` в JSON
-
-5. `.post()` получает URL из `TestConfig.PROFILE_CREATE`5. `.post()` получает URL из `TestConfig.PROFILE_CREATE`
-
-
-
-**Файл:** `TestConfig.java`**Файл:** `TestConfig.java`
-
-
+### Визуализация полного воркфлоу
 
 ```java```java
 
-public static final String PROFILE_CREATE = "/api/admin/profile/create";public static final String PROFILE_CREATE = "/api/admin/profile/create";
+```
 
-``````
+┌─────────────────────────────────────────────────────────────────┐public class RequestBuilder {public class RequestBuilder {
 
+│ 1. ПОДГОТОВКА (@BeforeClass)                                    │
 
+└─────────────────────────────────────────────────────────────────┘    public static RequestSpecification authorized(String token) {    public static RequestSpecification authorized(String token) {
 
-**REST Assured формирует запрос:****REST Assured формирует запрос:**
+        │
 
+        ├─→ ProfileApiTest.setup()        return given()        return given()
 
+        │   └─→ BaseApiTest.globalSetup()
 
-```http```http
+        │       ├─→ TestConfig.BASE_URL            .contentType(JSON)            .contentType(JSON)
 
-POST http://195.38.164.168:7173/api/admin/profile/createPOST http://195.38.164.168:7173/api/admin/profile/create
+        │       └─→ getAdminToken()
 
-Content-Type: application/jsonContent-Type: application/json
+        │           ├─→ AuthSignInRequest.builder()            .header("Authorization", "Bearer " + token);            .header("Authorization", "Bearer " + token);
 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        │           ├─→ RequestBuilder.unauthorized()
 
+        │           ├─→ TestConfig.AUTH_SIGN_IN    }    }
 
+        │           ├─→ ResponseExtractor.extractToken()
 
-{{
+        │           │   (если 401):}}
 
-  "msisdn": "996801234567",  "msisdn": "996801234567",
+        │           ├─→ AuthSignUpRequest.builder()
 
-  "userId": 1,  "userId": 1,
+        │           ├─→ TestDataGenerator.*``````
 
-  "pricePlanId": 1  "pricePlanId": 1
+        │           └─→ POST /api/auth/sign_up
 
-}}
+        │
 
-``````
+        ▼
 
+┌─────────────────────────────────────────────────────────────────┐**Что происходит:****Что происходит:**
 
+│ 2. ЗАПУСК ТЕСТА (@Test)                                         │
 
-**Файлы задействованы:****Файлы задействованы:**
+└─────────────────────────────────────────────────────────────────┘
 
-- RequestBuilder.java- ✅ `RequestBuilder.java`
+        │
 
-- TestConfig.java- ✅ `TestConfig.java`
+        ├─→ testCreateProfile_Success()1. **RequestBuilder.authorized()** создаёт REST Assured `RequestSpecification`1. **RequestBuilder.authorized()** создаёт REST Assured `RequestSpecification`
 
-- ProfileCreateRequest.java (сериализация)- ✅ `ProfileCreateRequest.java` (сериализация)
+        │
 
-- pom.xml (REST Assured 5.5.0, Jackson 2.18.2)- ✅ `pom.xml` (REST Assured 5.5.0, Jackson 2.18.2)
+        ▼2. Устанавливает `Content-Type: application/json`2. Устанавливает `Content-Type: application/json`
 
+┌─────────────────────────────────────────────────────────────────┐
 
+│ 3. ГЕНЕРАЦИЯ ДАННЫХ                                             │3. Добавляет header `Authorization: Bearer eyJhbGc...`3. Добавляет header `Authorization: Bearer eyJhbGc...`
 
-#### Шаг 5: Отправка запроса и получение ответа#### 🎬 Шаг 5: Отправка запроса и получение ответа
+└─────────────────────────────────────────────────────────────────┘
 
+        │4. `.body(body)` ← Jackson сериализует `ProfileCreateRequest` в JSON4. `.body(body)` ← Jackson сериализует `ProfileCreateRequest` в JSON
 
+        ├─→ TestDataGenerator.generateMsisdn()
 
-**Что происходит:****Что происходит:**
+        │   └─→ Faker.number().digits(7)5. `.post()` получает URL из `TestConfig.PROFILE_CREATE`5. `.post()` получает URL из `TestConfig.PROFILE_CREATE`
 
+        │       └─→ return "99680" + "1234567"
 
+        │
 
-1. REST Assured отправляет HTTP POST запрос на сервер1. REST Assured отправляет HTTP POST запрос на сервер
+        ▼
 
-2. Сервер обрабатывает запрос2. Сервер обрабатывает запрос
+┌─────────────────────────────────────────────────────────────────┐**Файл:** `TestConfig.java`**Файл:** `TestConfig.java`
 
-3. Возвращается HTTP ответ:3. Возвращается HTTP ответ:
+│ 4. ПОСТРОЕНИЕ REQUEST DTO                                       │
 
+└─────────────────────────────────────────────────────────────────┘
 
+        │
 
-```http```http
+        ├─→ ProfileCreateRequest.builder()```java```java
 
-HTTP/1.1 201 CreatedHTTP/1.1 201 Created
+        │   ├─→ .msisdn("996801234567")
 
-Content-Type: application/jsonContent-Type: application/json
+        │   ├─→ .userId(1L)public static final String PROFILE_CREATE = "/api/admin/profile/create";public static final String PROFILE_CREATE = "/api/admin/profile/create";
 
+        │   ├─→ .pricePlanId(1L)
 
+        │   └─→ .build()``````
 
-{{
+        │
 
-  "code": "OK",  "code": "OK",
+        ▼
 
-  "content": {  "content": {
+┌─────────────────────────────────────────────────────────────────┐
 
-    "id": 42,    "id": 42,
+│ 5. ПОСТРОЕНИЕ HTTP ЗАПРОСА                                      │**REST Assured формирует запрос:****REST Assured формирует запрос:**
 
-    "msisdn": "996801234567",    "msisdn": "996801234567",
+└─────────────────────────────────────────────────────────────────┘
 
-    "userId": 1,    "userId": 1,
+        │
 
-    "pricePlanId": 1,    "pricePlanId": 1,
+        ├─→ RequestBuilder.authorized(adminToken)
 
-    "status": "ACTIVE",    "status": "ACTIVE",
+        │   ├─→ given()```http```http
 
-    "createdAt": "2025-11-02T10:30:00",    "createdAt": "2025-11-02T10:30:00",
+        │   ├─→ .contentType(JSON)
+
+        │   ├─→ .header("Authorization", "Bearer ...")POST http://195.38.164.168:7173/api/admin/profile/createPOST http://195.38.164.168:7173/api/admin/profile/create
+
+        │   └─→ .body(body)
+
+        │       └─→ Jackson сериализует DTO в JSONContent-Type: application/jsonContent-Type: application/json
+
+        │
+
+        ├─→ .post(TestConfig.PROFILE_CREATE)Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+        │   └─→ URL: "/api/admin/profile/create"
+
+        │
+
+        ▼
+
+┌─────────────────────────────────────────────────────────────────┐{{
+
+│ 6. ОТПРАВКА НА СЕРВЕР                                           │
+
+└─────────────────────────────────────────────────────────────────┘  "msisdn": "996801234567",  "msisdn": "996801234567",
+
+        │
+
+        │   HTTP POST →  http://195.38.164.168:7173  "userId": 1,  "userId": 1,
+
+        │                /api/admin/profile/create
+
+        │  "pricePlanId": 1  "pricePlanId": 1
+
+        │   Headers:
+
+        │   - Content-Type: application/json}}
+
+        │   - Authorization: Bearer eyJhbG...
+
+        │``````
+
+        │   Body:
+
+        │   {
+
+        │     "msisdn": "996801234567",
+
+        │     "userId": 1,**Файлы задействованы:****Файлы задействованы:**
+
+        │     "pricePlanId": 1
+
+        │   }- RequestBuilder.java- ✅ `RequestBuilder.java`
+
+        │
+
+        │   ← HTTP 201 Created- TestConfig.java- ✅ `TestConfig.java`
+
+        │   {
+
+        │     "code": "OK",- ProfileCreateRequest.java (сериализация)- ✅ `ProfileCreateRequest.java` (сериализация)
+
+        │     "content": {
+
+        │       "id": 42,- pom.xml (REST Assured 5.5.0, Jackson 2.18.2)- ✅ `pom.xml` (REST Assured 5.5.0, Jackson 2.18.2)
+
+        │       "msisdn": "996801234567",
+
+        │       "userId": 1,
+
+        │       "pricePlanId": 1,
+
+        │       "status": "ACTIVE",#### Шаг 5: Отправка запроса и получение ответа#### 🎬 Шаг 5: Отправка запроса и получение ответа
+
+        │       "createdAt": "2025-11-02T10:30:00",
+
+        │       "updatedAt": "2025-11-02T10:30:00"
+
+        │     }
+
+        │   }**Что происходит:****Что происходит:**
+
+        │
+
+        ▼
+
+┌─────────────────────────────────────────────────────────────────┐
+
+│ 7. ВАЛИДАЦИЯ ОТВЕТА                                             │1. REST Assured отправляет HTTP POST запрос на сервер1. REST Assured отправляет HTTP POST запрос на сервер
+
+└─────────────────────────────────────────────────────────────────┘
+
+        │2. Сервер обрабатывает запрос2. Сервер обрабатывает запрос
+
+        ├─→ ApiAssertions.assertOkResponse(response)
+
+        │   ├─→ assertStatus(response, 200)3. Возвращается HTTP ответ:3. Возвращается HTTP ответ:
+
+        │   │   ├─→ actual: 201
+
+        │   │   └─→ expected: 200 (по спеке)
+
+        │   │       └─→ AssertionError!
+
+        │   │           БАГ API НАЙДЕН!```http```http
+
+        │   │
+
+        │   ├─→ assertEquals("code", "OK")HTTP/1.1 201 CreatedHTTP/1.1 201 Created
+
+        │   └─→ assertNotNull("content")
+
+        │Content-Type: application/jsonContent-Type: application/json
+
+        ▼
+
+┌─────────────────────────────────────────────────────────────────┐
+
+│ 8. ИЗВЛЕЧЕНИЕ ДАННЫХ (если бы прошёл)                          │
+
+└─────────────────────────────────────────────────────────────────┘{{
+
+        │
+
+        ├─→ ResponseExtractor.extractId(response)  "code": "OK",  "code": "OK",
+
+        │   └─→ jsonPath().getLong("content.id")
+
+        │       └─→ return 42L  "content": {  "content": {
+
+        │
+
+        ▼    "id": 42,    "id": 42,
+
+┌─────────────────────────────────────────────────────────────────┐
+
+│ 9. CLEANUP (если бы прошёл)                                     │    "msisdn": "996801234567",    "msisdn": "996801234567",
+
+└─────────────────────────────────────────────────────────────────┘
+
+        │    "userId": 1,    "userId": 1,
+
+        ├─→ url(TestConfig.PROFILE_DELETE, createdId)
+
+        │   └─→ "/api/admin/profile/delete/42"    "pricePlanId": 1,    "pricePlanId": 1,
+
+        │
+
+        └─→ RequestBuilder.authorized(adminToken)    "status": "ACTIVE",    "status": "ACTIVE",
+
+            └─→ .delete(url)
+
+                └─→ DELETE /api/admin/profile/delete/42    "createdAt": "2025-11-02T10:30:00",    "createdAt": "2025-11-02T10:30:00",
+
+```
 
     "updatedAt": "2025-11-02T10:30:00"    "updatedAt": "2025-11-02T10:30:00"
 
+---
+
   }  }
+
+### Полная карта зависимостей файлов
 
 }}
 
-``````
+```
 
+testCreateProfile_Success()``````
 
+│
 
-4. REST Assured парсит ответ в объект `Response`4. REST Assured парсит ответ в объект `Response`
+├── ProfileApiTest.java (тест)
 
+│   └── extends BaseApiTest.java
 
+│4. REST Assured парсит ответ в объект `Response`4. REST Assured парсит ответ в объект `Response`
 
-**Файлы задействованы:****Файлы задействованы:**
+├── BaseApiTest.java (базовый класс)
 
-- pom.xml (REST Assured HTTP клиент)- ✅ `pom.xml` (REST Assured HTTP клиент)
+│   ├── globalSetup()
 
+│   ├── getAdminToken()
 
+│   └── url()**Файлы задействованы:****Файлы задействованы:**
 
-#### Шаг 6: Проверка статус-кода#### 🎬 Шаг 6: Проверка статус-кода
+│
 
+├── TestConfig.java (конфигурация)- pom.xml (REST Assured HTTP клиент)- ✅ `pom.xml` (REST Assured HTTP клиент)
 
+│   ├── BASE_URL
 
-```java```java
+│   ├── ADMIN_USERNAME
 
-ApiAssertions.assertOkResponse(response);ApiAssertions.assertOkResponse(response);
+│   ├── ADMIN_PASSWORD
 
-``````
+│   ├── AUTH_SIGN_IN#### Шаг 6: Проверка статус-кода#### 🎬 Шаг 6: Проверка статус-кода
 
+│   ├── AUTH_REGISTER
 
+│   ├── PROFILE_CREATE
 
-**Файл:** `utils/ApiAssertions.java`**Файл:** `utils/ApiAssertions.java`
+│   └── PROFILE_DELETE
 
+│```java```java
 
+├── utils/RequestBuilder.java (HTTP запросы)
 
-```java```java
+│   ├── authorized(token)ApiAssertions.assertOkResponse(response);ApiAssertions.assertOkResponse(response);
 
-public class ApiAssertions {public class ApiAssertions {
+│   └── unauthorized()
 
-    public static void assertOkResponse(Response response) {    public static void assertOkResponse(Response response) {
+│``````
 
-        assertStatus(response, 200); // ← Ожидаем 200        assertStatus(response, 200); // ← Ожидаем 200
+├── utils/ApiAssertions.java (проверки)
 
-                
+│   ├── assertOkResponse()
 
-        String body = safeBody(response);        String body = safeBody(response);
+│   ├── assertStatus()
 
-                
+│   └── safeBody()**Файл:** `utils/ApiAssertions.java`**Файл:** `utils/ApiAssertions.java`
 
-        Assert.assertEquals(        Assert.assertEquals(
+│
 
-            response.jsonPath().getString("code"),             response.jsonPath().getString("code"), 
+├── utils/ResponseExtractor.java (извлечение данных)
 
-            "OK",             "OK", 
+│   ├── extractId()
 
-            "code != OK. Body: " + body            "code != OK. Body: " + body
+│   ├── extractToken()```java```java
+
+│   ├── extractContent()
+
+│   └── extractContentList()public class ApiAssertions {public class ApiAssertions {
+
+│
+
+├── utils/TestDataGenerator.java (генерация данных)    public static void assertOkResponse(Response response) {    public static void assertOkResponse(Response response) {
+
+│   ├── generateMsisdn()
+
+│   ├── generateFirstName()        assertStatus(response, 200); // ← Ожидаем 200        assertStatus(response, 200); // ← Ожидаем 200
+
+│   ├── generateLastName()
+
+│   └── generateTelegramChatId()                
+
+│
+
+├── dto/request/ProfileCreateRequest.java (request DTO)        String body = safeBody(response);        String body = safeBody(response);
+
+│   ├── @JsonProperty fields
+
+│   ├── getters/setters                
+
+│   └── Builder pattern
+
+│        Assert.assertEquals(        Assert.assertEquals(
+
+├── dto/request/AuthSignInRequest.java (auth request)
+
+│   └── Builder pattern            response.jsonPath().getString("code"),             response.jsonPath().getString("code"), 
+
+│
+
+├── dto/request/AuthSignUpRequest.java (register request)            "OK",             "OK", 
+
+│   └── Builder pattern
+
+│            "code != OK. Body: " + body            "code != OK. Body: " + body
+
+├── dto/response/ProfileDto.java (response DTO)
+
+│   ├── @JsonProperty fields        );        );
+
+│   └── getters/setters
+
+│                
+
+└── pom.xml (зависимости)
+
+    ├── TestNG 7.10.2        Assert.assertNotNull(        Assert.assertNotNull(
+
+    ├── REST Assured 5.5.0
+
+    ├── Jackson 2.18.2            response.jsonPath().get("content"),             response.jsonPath().get("content"), 
+
+    ├── jackson-datatype-jsr310 2.18.2
+
+    └── Datafaker 2.4.2            "content is null. Body: " + body            "content is null. Body: " + body
+
+```
 
         );        );
 
-                
-
-        Assert.assertNotNull(        Assert.assertNotNull(
-
-            response.jsonPath().get("content"),             response.jsonPath().get("content"), 
-
-            "content is null. Body: " + body            "content is null. Body: " + body
-
-        );        );
+---
 
     }    }
+
+### Последовательность вызовов (Call Stack)
 
         
 
-    private static void assertStatus(Response response, int expected) {    private static void assertStatus(Response response, int expected) {
+```
+
+1. TestNG запускает тест    private static void assertStatus(Response response, int expected) {    private static void assertStatus(Response response, int expected) {
+
+   └─→ ProfileApiTest.testCreateProfile_Success()
 
         Assert.assertEquals(        Assert.assertEquals(
 
-            response.getStatusCode(),             response.getStatusCode(), 
+2. Генерация MSISDN
+
+   └─→ TestDataGenerator.generateMsisdn()            response.getStatusCode(),             response.getStatusCode(), 
+
+       └─→ Faker.number().digits(7)
 
             expected,             expected, 
 
-            "Unexpected status. Body: " + safeBody(response)            "Unexpected status. Body: " + safeBody(response)
+3. Построение Request DTO
+
+   └─→ ProfileCreateRequest.builder()            "Unexpected status. Body: " + safeBody(response)            "Unexpected status. Body: " + safeBody(response)
+
+       └─→ .msisdn().userId().pricePlanId().build()
 
         );        );
 
-    }    }
+4. Построение HTTP запроса
+
+   └─→ RequestBuilder.authorized(adminToken)    }    }
+
+       └─→ given().contentType(JSON).header("Authorization", ...)
 
 }}
 
-``````
+5. Добавление body
+
+   └─→ .body(ProfileCreateRequest)``````
+
+       └─→ Jackson.serialize(ProfileCreateRequest → JSON)
 
 
 
-**Что происходит:****Что происходит:**
+6. Отправка запроса
+
+   └─→ .post(TestConfig.PROFILE_CREATE)**Что происходит:****Что происходит:**
+
+       └─→ REST Assured HTTP POST
+
+           └─→ Сервер возвращает Response (201 Created)
 
 
 
-1. **assertStatus(200)** проверяет код ответа1. **assertStatus(200)** проверяет код ответа
+7. Проверка ответа1. **assertStatus(200)** проверяет код ответа1. **assertStatus(200)** проверяет код ответа
 
-   - Ожидается: 200   - Ожидается: 200
+   └─→ ApiAssertions.assertOkResponse(response)
 
-   - Реально: 201   - Реально: 201 ❌
+       └─→ assertStatus(response, 200)   - Ожидается: 200   - Ожидается: 200
+
+           └─→ TestNG Assert.assertEquals(201, 200)
+
+               └─→ AssertionError: expected 200, got 201   - Реально: 201   - Реально: 201 ❌
+
+                   └─→ ТЕСТ ПАДАЕТ = БАГ НАЙДЕН
 
    - ТЕСТ ПАДАЕТ → найден БАГ API   - **ТЕСТ ПАДАЕТ** → найден БАГ API!
 
+8. (Не выполняется из-за падения)
 
-
-2. TestNG выбрасывает `AssertionError`:2. TestNG выбрасывает `AssertionError`:
-
-   ```   ```
-
-   java.lang.AssertionError: Unexpected status. Expected: 200, Actual: 201   java.lang.AssertionError: Unexpected status. Expected: 200, Actual: 201
-
-   ```   ```
+   └─→ ResponseExtractor.extractId(response)
 
 
 
-**Файлы задействованы:****Файлы задействованы:**
+9. (Не выполняется из-за падения)2. TestNG выбрасывает `AssertionError`:2. TestNG выбрасывает `AssertionError`:
 
-- ApiAssertions.java- ✅ `ApiAssertions.java`
+   └─→ DELETE cleanup
 
-- pom.xml (TestNG assertions)- ✅ `pom.xml` (TestNG assertions)
-
-
-
-#### Шаг 7: Извлечение данных (если тест прошёл бы)#### 🎬 Шаг 7: Извлечение данных (если тест прошёл бы)
+```   ```   ```
 
 
 
-```java```java
+---   java.lang.AssertionError: Unexpected status. Expected: 200, Actual: 201   java.lang.AssertionError: Unexpected status. Expected: 200, Actual: 201
 
-Long createdId = ResponseExtractor.extractId(response);Long createdId = ResponseExtractor.extractId(response);
+
+
+### Ключевые моменты   ```   ```
+
+
+
+1. **Один тест = 14 файлов**
+
+   - 3 базовых класса
+
+   - 4 утилиты**Файлы задействованы:****Файлы задействованы:**
+
+   - 4 DTOs
+
+   - 1 конфигурация- ApiAssertions.java- ✅ `ApiAssertions.java`
+
+   - 1 тест
+
+   - 1 pom.xml- pom.xml (TestNG assertions)- ✅ `pom.xml` (TestNG assertions)
+
+
+
+2. **Каждый файл имеет одну ответственность**
+
+   - TestConfig → только константы
+
+   - RequestBuilder → только HTTP запросы#### Шаг 7: Извлечение данных (если тест прошёл бы)#### 🎬 Шаг 7: Извлечение данных (если тест прошёл бы)
+
+   - ApiAssertions → только проверки
+
+   - DTOs → только данные
+
+
+
+3. **Падение теста = найденный баг**```java```java
+
+   - Тест ожидает 200 (по спецификации)
+
+   - API возвращает 201 (реальность)Long createdId = ResponseExtractor.extractId(response);Long createdId = ResponseExtractor.extractId(response);
+
+   - Несоответствие = баг в API
 
 ``````
 
+4. **Переиспользование кода**
 
+   - adminToken получается один раз в @BeforeClass
 
-**Файл:** `utils/ResponseExtractor.java`**Файл:** `utils/ResponseExtractor.java`
+   - Утилиты используются всеми тестами
 
-
-
-```java```java
-
-public class ResponseExtractor {public class ResponseExtractor {
-
-    public static Long extractId(Response response) {    public static Long extractId(Response response) {
-
-        return response.jsonPath().getLong("content.id");        return response.jsonPath().getLong("content.id");
-
-        // Вернёт: 42L        // Вернёт: 42L
-
-    }    }
-
-}}
-
-``````
+   - DTOs общие для всех запросов/ответов**Файл:** `utils/ResponseExtractor.java`**Файл:** `utils/ResponseExtractor.java`
 
 
 
-**Что происходит:****Что происходит:**
+---
 
 
+
+## Архитектура фреймворка```java```java
+
+
+
+### Принципы построенияpublic class ResponseExtractor {public class ResponseExtractor {
+
+
+
+1. **Spec-First Approach** - все тесты строго по OpenAPI спецификации    public static Long extractId(Response response) {    public static Long extractId(Response response) {
+
+2. **Fail on API Bugs** - падающий тест = найденный баг в API
+
+3. **Flat Structure** - минимум вложенности, плоская структура пакетов        return response.jsonPath().getLong("content.id");        return response.jsonPath().getLong("content.id");
+
+4. **Reusable Utilities** - переиспользуемые компоненты вместо дублирования
+
+5. **Clean Code** - простой и понятный код без over-engineering        // Вернёт: 42L        // Вернёт: 42L
+
+
+
+### Диаграмма зависимостей    }    }
+
+
+
+```}}
+
+api.json (OpenAPI Spec)
+
+    ↓``````
+
+TestConfig → BaseApiTest → {Balance|Counter|Profile}ApiTest
+
+                ↓                           ↓
+
+            Utils (RequestBuilder,      Request/Response DTOs
+
+            ApiAssertions, etc.)**Что происходит:****Что происходит:**
+
+```
+
+
+
+---
 
 1. JsonPath парсит JSON ответа1. JsonPath парсит JSON ответа
 
+## Базовые классы
+
 2. Извлекает поле `content.id`2. Извлекает поле `content.id`
+
+### TestConfig
 
 3. Конвертирует в `Long`3. Конвертирует в `Long`
 
+**Назначение:** Централизованная конфигурация всех URL и credentials.
 
+
+
+**Расположение:** `src/test/java/auc/TestConfig.java`
 
 **Файлы задействованы:****Файлы задействованы:**
+
+**Поля:**
 
 - ResponseExtractor.java- ✅ `ResponseExtractor.java`
 
-- pom.xml (REST Assured JsonPath)- ✅ `pom.xml` (REST Assured JsonPath)
+```java
+
+public static final String BASE_URL = "http://195.38.164.168:7173";- pom.xml (REST Assured JsonPath)- ✅ `pom.xml` (REST Assured JsonPath)
+
+public static final String ADMIN_USERNAME = "superuser";
+
+public static final String ADMIN_PASSWORD = "Admin123!@#";
 
 
 
-#### Шаг 8: Cleanup (если тест прошёл бы)#### 🎬 Шаг 8: Cleanup (если тест прошёл бы)
+public static final String AUTH_REGISTER = "/api/auth/sign_up";#### Шаг 8: Cleanup (если тест прошёл бы)#### 🎬 Шаг 8: Cleanup (если тест прошёл бы)
+
+public static final String AUTH_SIGN_IN = "/api/auth/sign_in";
 
 
 
-```java```java
+public static final String BALANCE_GET_BY_ID = "/api/balance/{id}";
+
+public static final String BALANCE_GET_ALL = "/api/balance/all";```java```java
+
+public static final String BALANCE_UPDATE = "/api/balance/update/{id}";
 
 RequestBuilder.authorized(adminToken)RequestBuilder.authorized(adminToken)
 
-    .delete(url(TestConfig.PROFILE_DELETE, createdId));    .delete(url(TestConfig.PROFILE_DELETE, createdId));
+public static final String PROFILE_CREATE = "/api/admin/profile/create";
 
-``````
+public static final String PROFILE_UPDATE = "/api/admin/profile/update/{id}";    .delete(url(TestConfig.PROFILE_DELETE, createdId));    .delete(url(TestConfig.PROFILE_DELETE, createdId));
+
+public static final String PROFILE_GET_BY_ID = "/api/admin/profile/{id}";
+
+public static final String PROFILE_GET_ALL = "/api/admin/profile/all";``````
+
+public static final String PROFILE_GET_ALL_REMOVED = "/api/admin/profile/all-removed";
+
+public static final String PROFILE_DELETE = "/api/admin/profile/delete/{id}";
 
 
 
-**Файл:** `BaseApiTest.java`**Файл:** `BaseApiTest.java`
+public static final String COUNTER_GET_BY_ID = "/api/admin/counter/{id}";**Файл:** `BaseApiTest.java`**Файл:** `BaseApiTest.java`
 
+public static final String COUNTER_GET_ALL = "/api/admin/counter/all";
 
+public static final String COUNTER_GET_ALL_ACTIVE = "/api/admin/counter/all-active";
+
+```
 
 ```java```java
 
+### BaseApiTest
+
 protected String url(String template, Object... params) {protected String url(String template, Object... params) {
+
+**Назначение:** Базовый класс для всех тестов с общей логикой.
 
     String result = template;    String result = template;
 
+**Расположение:** `src/test/java/auc/BaseApiTest.java`
+
     for (Object param : params) {    for (Object param : params) {
+
+**Поля:**
 
         result = result.replaceFirst("\\{[^}]+}", String.valueOf(param));        result = result.replaceFirst("\\{[^}]+}", String.valueOf(param));
 
-    }    }
+```java
+
+protected static String adminToken;    }    }
+
+```
 
     return result;    return result;
 
+**Методы:**
+
     // "/api/admin/profile/delete/{id}" → "/api/admin/profile/delete/42"    // "/api/admin/profile/delete/{id}" → "/api/admin/profile/delete/42"
 
-}}
+```java
 
-``````
+@BeforeClass}}
 
+public void globalSetup() {
 
+    RestAssured.baseURI = TestConfig.BASE_URL;``````
 
-**Что происходит:****Что происходит:**
+    adminToken = getAdminToken();
 
-
-
-1. `url()` подставляет ID в шаблон URL1. `url()` подставляет ID в шаблон URL
-
-2. `RequestBuilder.authorized()` создаёт DELETE запрос2. `RequestBuilder.authorized()` создаёт DELETE запрос
-
-3. Отправляется DELETE для очистки тестовых данных3. Отправляется DELETE для очистки тестовых данных
+}
 
 
 
-**Файлы задействованы:****Файлы задействованы:**
+protected String url(String template, Object... params) {**Что происходит:****Что происходит:**
 
-- BaseApiTest.java- ✅ `BaseApiTest.java`
+    String result = template;
+
+    for (Object param : params) {
+
+        result = result.replaceFirst("\\{[^}]+}", String.valueOf(param));
+
+    }1. `url()` подставляет ID в шаблон URL1. `url()` подставляет ID в шаблон URL
+
+    return result;
+
+}2. `RequestBuilder.authorized()` создаёт DELETE запрос2. `RequestBuilder.authorized()` создаёт DELETE запрос
+
+
+
+private String getAdminToken() {3. Отправляется DELETE для очистки тестовых данных3. Отправляется DELETE для очистки тестовых данных
+
+    AuthSignInRequest signIn = AuthSignInRequest.builder()
+
+        .username(TestConfig.ADMIN_USERNAME)
+
+        .password(TestConfig.ADMIN_PASSWORD)
+
+        .build();**Файлы задействованы:****Файлы задействованы:**
+
+
+
+    Response signInResponse = RequestBuilder.unauthorized().body(signIn)- BaseApiTest.java- ✅ `BaseApiTest.java`
+
+        .post(TestConfig.AUTH_SIGN_IN);
 
 - TestConfig.java- ✅ `TestConfig.java`
 
-- RequestBuilder.java- ✅ `RequestBuilder.java`
+    if (signInResponse.getStatusCode() == 200) {
+
+        return ResponseExtractor.extractToken(signInResponse);- RequestBuilder.java- ✅ `RequestBuilder.java`
+
+    }
 
 
 
-------
+    AuthSignUpRequest signUp = AuthSignUpRequest.builder()
+
+        .username(TestConfig.ADMIN_USERNAME)------
+
+        .password(TestConfig.ADMIN_PASSWORD)
+
+        .firstName(TestDataGenerator.generateFirstName())
+
+        .lastName(TestDataGenerator.generateLastName())
+
+        .telegramChatId(TestDataGenerator.generateTelegramChatId())### Визуализация полного воркфлоу### 📊 Визуализация полного воркфлоу
+
+        .build();
 
 
 
-### Визуализация полного воркфлоу### 📊 Визуализация полного воркфлоу
+    RequestBuilder.unauthorized().body(signUp)
+
+        .post(TestConfig.AUTH_REGISTER);``````
 
 
 
-``````
+    Response secondSignIn = RequestBuilder.unauthorized().body(signIn)┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
 
-┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
+        .post(TestConfig.AUTH_SIGN_IN);
 
 │ 1. ПОДГОТОВКА (@BeforeClass)                                    ││ 1. ПОДГОТОВКА (@BeforeClass)                                    │
 
-└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
+    return ResponseExtractor.extractToken(secondSignIn);
+
+}└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
+
+```
 
         │        │
+
+---
 
         ├─→ ProfileApiTest.setup()        ├─→ ProfileApiTest.setup()
 
+## Утилиты
+
         │   └─→ BaseApiTest.globalSetup()        │   └─→ BaseApiTest.globalSetup()
+
+### RequestBuilder
 
         │       ├─→ TestConfig.BASE_URL        │       ├─→ TestConfig.BASE_URL ────────────────┐
 
+**Назначение:** Построение HTTP запросов с авторизацией.
+
         │       └─→ getAdminToken()        │       └─→ getAdminToken()                     │
+
+**Расположение:** `src/test/java/auc/utils/RequestBuilder.java`
 
         │           ├─→ AuthSignInRequest.builder()        │           ├─→ AuthSignInRequest.builder() ────┤
 
+**Методы:**
+
         │           ├─→ RequestBuilder.unauthorized()        │           ├─→ RequestBuilder.unauthorized() ──┤
 
-        │           ├─→ TestConfig.AUTH_SIGN_IN        │           ├─→ TestConfig.AUTH_SIGN_IN ────────┤
+```java
 
-        │           ├─→ ResponseExtractor.extractToken()        │           ├─→ ResponseExtractor.extractToken() │
+public static RequestSpecification authorized(String token) {        │           ├─→ TestConfig.AUTH_SIGN_IN        │           ├─→ TestConfig.AUTH_SIGN_IN ────────┤
 
-        │           │   (если 401):        │           │   (если 401):                      │
+    return given()
 
-        │           ├─→ AuthSignUpRequest.builder()        │           ├─→ AuthSignUpRequest.builder() ────┤
+        .contentType(JSON)        │           ├─→ ResponseExtractor.extractToken()        │           ├─→ ResponseExtractor.extractToken() │
 
-        │           ├─→ TestDataGenerator.*        │           ├─→ TestDataGenerator.* ────────────┤
+        .header("Authorization", "Bearer " + token);
+
+}        │           │   (если 401):        │           │   (если 401):                      │
+
+
+
+public static RequestSpecification unauthorized() {        │           ├─→ AuthSignUpRequest.builder()        │           ├─→ AuthSignUpRequest.builder() ────┤
+
+    return given().contentType(JSON);
+
+}        │           ├─→ TestDataGenerator.*        │           ├─→ TestDataGenerator.* ────────────┤
+
+```
 
         │           └─→ POST /api/auth/sign_up        │           └─→ POST /api/auth/sign_up ─────────┘
 
+### ApiAssertions
+
         │        │
+
+**Назначение:** Стандартизированные проверки HTTP ответов.
 
         ▼        ▼
 
+**Расположение:** `src/test/java/auc/utils/ApiAssertions.java`
+
 ┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
+
+**Методы:**
 
 │ 2. ЗАПУСК ТЕСТА (@Test)                                         ││ 2. ЗАПУСК ТЕСТА (@Test)                                         │
 
-└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
+```java
 
-        │        │
+public static void assertOkResponse(Response response) {└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
 
-        ├─→ testCreateProfile_Success()        ├─→ testCreateProfile_Success()
+    assertStatus(response, 200);
 
-        │        │
+    String body = safeBody(response);        │        │
+
+    Assert.assertEquals(response.jsonPath().getString("code"), "OK", 
+
+        "code != OK. Body: " + body);        ├─→ testCreateProfile_Success()        ├─→ testCreateProfile_Success()
+
+    Assert.assertNotNull(response.jsonPath().get("content"), 
+
+        "content is null. Body: " + body);        │        │
+
+}
 
         ▼        ▼
 
-┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
+public static void assertForbidden(Response response) {
+
+    assertStatus(response, 403);┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
+
+}
 
 │ 3. ГЕНЕРАЦИЯ ДАННЫХ                                             ││ 3. ГЕНЕРАЦИЯ ДАННЫХ                                             │
 
-└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
+public static void assertNotFound(Response response) {
+
+    assertStatus(response, 404);└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
+
+}
 
         │        │
 
-        ├─→ TestDataGenerator.generateMsisdn()        ├─→ TestDataGenerator.generateMsisdn()
+public static void assertBadRequest(Response response) {
+
+    assertStatus(response, 400);        ├─→ TestDataGenerator.generateMsisdn()        ├─→ TestDataGenerator.generateMsisdn()
+
+}
 
         │   └─→ Faker.number().digits(7)        │   └─→ Faker.number().digits(7) ───────────────┐
 
-        │       └─→ return "99680" + "1234567"        │       └─→ return "99680" + "1234567" ─────────┤
+private static void assertStatus(Response response, int expected) {
 
-        │        │                                                │
+    Assert.assertEquals(response.getStatusCode(), expected,         │       └─→ return "99680" + "1234567"        │       └─→ return "99680" + "1234567" ─────────┤
 
-        ▼        ▼                                                │
+        "Unexpected status. Body: " + safeBody(response));
 
-┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
+}        │        │                                                │
 
-│ 4. ПОСТРОЕНИЕ REQUEST DTO                                       ││ 4. ПОСТРОЕНИЕ REQUEST DTO                                       │
 
-└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
 
-        │        │
+private static String safeBody(Response response) {        ▼        ▼                                                │
+
+    try {
+
+        String s = response.asString();┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
+
+        return s == null ? "<null>" : 
+
+            (s.length() > 1000 ? s.substring(0, 1000) + "..." : s);│ 4. ПОСТРОЕНИЕ REQUEST DTO                                       ││ 4. ПОСТРОЕНИЕ REQUEST DTO                                       │
+
+    } catch (Exception e) {
+
+        return "<unavailable: " + e.getMessage() + ">";└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
+
+    }
+
+}        │        │
+
+```
 
         ├─→ ProfileCreateRequest.builder()        ├─→ ProfileCreateRequest.builder()
 
+### ResponseExtractor
+
         │   ├─→ .msisdn("996801234567")        │   ├─→ .msisdn("996801234567") ────────────────┤
+
+**Назначение:** Извлечение типизированных данных из JSON ответов.
 
         │   ├─→ .userId(1L)        │   ├─→ .userId(1L) ────────────────────────────┤
 
+**Расположение:** `src/test/java/auc/utils/ResponseExtractor.java`
+
         │   ├─→ .pricePlanId(1L)        │   ├─→ .pricePlanId(1L) ───────────────────────┤
+
+**Методы:**
 
         │   └─→ .build()        │   └─→ .build() ───────────────────────────────┤
 
-        │        │                                                │
+```java
 
-        ▼        ▼                                                │
+public static <T> T extractContent(Response response, Class<T> type) {        │        │                                                │
 
-┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
+    return response.jsonPath().getObject("content", type);
 
-│ 5. ПОСТРОЕНИЕ HTTP ЗАПРОСА                                      ││ 5. ПОСТРОЕНИЕ HTTP ЗАПРОСА                                      │
+}        ▼        ▼                                                │
 
-└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
 
-        │        │
 
-        ├─→ RequestBuilder.authorized(adminToken)        ├─→ RequestBuilder.authorized(adminToken)
+public static <T> List<T> extractContentList(Response response, Class<T> type) {┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
 
-        │   ├─→ given()        │   ├─→ given() ────────────────────────────────┤ REST
+    return response.jsonPath().getList("content", type);
+
+}│ 5. ПОСТРОЕНИЕ HTTP ЗАПРОСА                                      ││ 5. ПОСТРОЕНИЕ HTTP ЗАПРОСА                                      │
+
+
+
+public static Long extractId(Response response) {└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
+
+    return response.jsonPath().getLong("content.id");
+
+}        │        │
+
+
+
+public static String extractToken(Response response) {        ├─→ RequestBuilder.authorized(adminToken)        ├─→ RequestBuilder.authorized(adminToken)
+
+    return response.jsonPath().getString("content.token");
+
+}        │   ├─→ given()        │   ├─→ given() ────────────────────────────────┤ REST
+
+```
 
         │   ├─→ .contentType(JSON)        │   ├─→ .contentType(JSON) ─────────────────────┤ Assured
 
+### TestDataGenerator
+
         │   ├─→ .header("Authorization", "Bearer ...")        │   ├─→ .header("Authorization", "Bearer ...") ─┤ 5.5.0
+
+**Назначение:** Генерация валидных тестовых данных.
 
         │   └─→ .body(body)        │   └─→ .body(body) ────────────────────────────┤
 
+**Расположение:** `src/test/java/auc/utils/TestDataGenerator.java`
+
         │       └─→ Jackson сериализует DTO в JSON        │       └─→ Jackson сериализует DTO в JSON ─────┤ Jackson
+
+**Методы:**
 
         │        │                                                │ 2.18.2
 
-        ├─→ .post(TestConfig.PROFILE_CREATE)        ├─→ .post(TestConfig.PROFILE_CREATE)            │
+```java
 
-        │   └─→ URL: "/api/admin/profile/create"        │   └─→ URL: "/api/admin/profile/create" ───────┤
+public static String generateMsisdn() {        ├─→ .post(TestConfig.PROFILE_CREATE)        ├─→ .post(TestConfig.PROFILE_CREATE)            │
+
+    return "99680" + faker.number().digits(7);
+
+}        │   └─→ URL: "/api/admin/profile/create"        │   └─→ URL: "/api/admin/profile/create" ───────┤
+
+
+
+public static String generateFirstName() {        │        │                                                │
+
+    return faker.name().firstName();
+
+}        ▼        ▼                                                │
+
+
+
+public static String generateLastName() {┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
+
+    return faker.name().lastName();
+
+}│ 6. ОТПРАВКА НА СЕРВЕР                                           ││ 6. ОТПРАВКА НА СЕРВЕР                                           │
+
+
+
+public static String generateTelegramChatId() {└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
+
+    return String.valueOf(faker.number().numberBetween(100000000, 999999999));
+
+}        │        │
+
+
+
+public static Double generateBalanceAmount() {        │   HTTP POST →  http://195.38.164.168:7173        │   HTTP POST →  http://195.38.164.168:7173     │
+
+    return faker.number().randomDouble(2, 100, 5000);
+
+}        │                /api/admin/profile/create        │                /api/admin/profile/create       │
+
+```
 
         │        │                                                │
 
-        ▼        ▼                                                │
-
-┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
-
-│ 6. ОТПРАВКА НА СЕРВЕР                                           ││ 6. ОТПРАВКА НА СЕРВЕР                                           │
-
-└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
-
-        │        │
-
-        │   HTTP POST →  http://195.38.164.168:7173        │   HTTP POST →  http://195.38.164.168:7173     │
-
-        │                /api/admin/profile/create        │                /api/admin/profile/create       │
-
-        │        │                                                │
+---
 
         │   Headers:        │   Headers:                                     │
 
+## DTOs
+
         │   - Content-Type: application/json        │   - Content-Type: application/json             │
+
+### Request DTOs
 
         │   - Authorization: Bearer eyJhbG...        │   - Authorization: Bearer eyJhbG...            │
 
-        │        │                                                │
-
-        │   Body:        │   Body:                                        │
-
-        │   {        │   {                                            │
-
-        │     "msisdn": "996801234567",        │     "msisdn": "996801234567",                  │
-
-        │     "userId": 1,        │     "userId": 1,                               │
-
-        │     "pricePlanId": 1        │     "pricePlanId": 1                           │
-
-        │   }        │   }                                            │
+#### AuthSignInRequest
 
         │        │                                                │
 
-        │   ← HTTP 201 Created        │   ← HTTP 201 Created                           │
+```json
 
-        │   {        │   {                                            │
+{        │   Body:        │   Body:                                        │
 
-        │     "code": "OK",        │     "code": "OK",                              │
+    "username": "string",
 
-        │     "content": {        │     "content": {                               │
+    "password": "string"        │   {        │   {                                            │
 
-        │       "id": 42,        │       "id": 42,                                │
+}
 
-        │       "msisdn": "996801234567",        │       "msisdn": "996801234567",                │
+```        │     "msisdn": "996801234567",        │     "msisdn": "996801234567",                  │
 
-        │       "userId": 1,        │       "userId": 1,                             │
 
-        │       "pricePlanId": 1,        │       "pricePlanId": 1,                        │
 
-        │       "status": "ACTIVE",        │       "status": "ACTIVE",                      │
+#### AuthSignUpRequest        │     "userId": 1,        │     "userId": 1,                               │
 
-        │       "createdAt": "2025-11-02T10:30:00",        │       "createdAt": "2025-11-02T10:30:00",      │
 
-        │       "updatedAt": "2025-11-02T10:30:00"        │       "updatedAt": "2025-11-02T10:30:00"       │
 
-        │     }        │     }                                          │
+```json        │     "pricePlanId": 1        │     "pricePlanId": 1                           │
 
-        │   }        │   }                                            │
+{
 
-        │        │                                                │
+    "username": "string",        │   }        │   }                                            │
 
-        ▼        ▼                                                │
+    "password": "string",
 
-┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
+    "firstName": "string",        │        │                                                │
 
-│ 7. ВАЛИДАЦИЯ ОТВЕТА                                             ││ 7. ВАЛИДАЦИЯ ОТВЕТА                                             │
+    "lastName": "string",
 
-└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
+    "telegramChatId": "string"        │   ← HTTP 201 Created        │   ← HTTP 201 Created                           │
+
+}
+
+```        │   {        │   {                                            │
+
+
+
+#### BalanceUpdateRequest        │     "code": "OK",        │     "code": "OK",                              │
+
+
+
+```json        │     "content": {        │     "content": {                               │
+
+{
+
+    "amount": 1500.50        │       "id": 42,        │       "id": 42,                                │
+
+}
+
+```        │       "msisdn": "996801234567",        │       "msisdn": "996801234567",                │
+
+
+
+#### ProfileCreateRequest        │       "userId": 1,        │       "userId": 1,                             │
+
+
+
+```json        │       "pricePlanId": 1,        │       "pricePlanId": 1,                        │
+
+{
+
+    "msisdn": "996801234567",        │       "status": "ACTIVE",        │       "status": "ACTIVE",                      │
+
+    "userId": 1,
+
+    "pricePlanId": 1        │       "createdAt": "2025-11-02T10:30:00",        │       "createdAt": "2025-11-02T10:30:00",      │
+
+}
+
+```        │       "updatedAt": "2025-11-02T10:30:00"        │       "updatedAt": "2025-11-02T10:30:00"       │
+
+
+
+### Response DTOs        │     }        │     }                                          │
+
+
+
+#### BalanceDto        │   }        │   }                                            │
+
+
+
+```json        │        │                                                │
+
+{
+
+    "id": 1,        ▼        ▼                                                │
+
+    "amount": 1500.50,
+
+    "userId": 1,┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
+
+    "currency": "USD",
+
+    "createdAt": "2025-11-02T10:00:00",│ 7. ВАЛИДАЦИЯ ОТВЕТА                                             ││ 7. ВАЛИДАЦИЯ ОТВЕТА                                             │
+
+    "updatedAt": "2025-11-02T10:00:00"
+
+}└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
+
+```
 
         │        │
+
+#### CounterDto
 
         ├─→ ApiAssertions.assertOkResponse(response)        ├─→ ApiAssertions.assertOkResponse(response)
 
-        │   ├─→ assertStatus(response, 200)        │   ├─→ assertStatus(response, 200) ────────────┤
+```json
 
-        │   │   ├─→ actual: 201        │   │   ├─→ actual: 201 ❌                       │ TestNG
+{        │   ├─→ assertStatus(response, 200)        │   ├─→ assertStatus(response, 200) ────────────┤
 
-        │   │   └─→ expected: 200 (по спеке)        │   │   └─→ expected: 200 (по спеке)            │ 7.10.2
+    "id": 1,
 
-        │   │       └─→ AssertionError!        │   │       └─→ AssertionError! ─────────────────┤
+    "profileId": 1,        │   │   ├─→ actual: 201        │   │   ├─→ actual: 201 ❌                       │ TestNG
 
-        │   │           БАГ API НАЙДЕН!        │   │           БАГ API НАЙДЕН! 🐛               │
+    "megabytes": 5000,
 
-        │   │        │   │                                            │
+    "seconds": 3600,        │   │   └─→ expected: 200 (по спеке)        │   │   └─→ expected: 200 (по спеке)            │ 7.10.2
 
-        │   ├─→ assertEquals("code", "OK")        │   ├─→ assertEquals("code", "OK") ──────────────┤
+    "sms": 100,
 
-        │   └─→ assertNotNull("content")        │   └─→ assertNotNull("content") ────────────────┘
+    "status": "ACTIVE",        │   │       └─→ AssertionError!        │   │       └─→ AssertionError! ─────────────────┤
 
-        │        │
+    "createdAt": "2025-11-02T10:00:00",
 
-        ▼        ▼
+    "updatedAt": "2025-11-02T10:00:00"        │   │           БАГ API НАЙДЕН!        │   │           БАГ API НАЙДЕН! 🐛               │
 
-┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
+}
 
-│ 8. ИЗВЛЕЧЕНИЕ ДАННЫХ (если бы прошёл)                          ││ 8. ИЗВЛЕЧЕНИЕ ДАННЫХ (если бы прошёл)                          │
+```        │   │        │   │                                            │
 
-└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
 
-        │        │
 
-        ├─→ ResponseExtractor.extractId(response)        ├─→ ResponseExtractor.extractId(response)
+#### ProfileDto        │   ├─→ assertEquals("code", "OK")        │   ├─→ assertEquals("code", "OK") ──────────────┤
 
-        │   └─→ jsonPath().getLong("content.id")        │   └─→ jsonPath().getLong("content.id")
 
-        │       └─→ return 42L        │       └─→ return 42L
 
-        │        │
+```json        │   └─→ assertNotNull("content")        │   └─→ assertNotNull("content") ────────────────┘
 
-        ▼        ▼
+{
 
-┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
+    "id": 1,        │        │
 
-│ 9. CLEANUP (если бы прошёл)                                     ││ 9. CLEANUP (если бы прошёл)                                     │
+    "msisdn": "996801234567",
 
-└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
+    "userId": 1,        ▼        ▼
 
-        │        │
+    "pricePlanId": 1,
 
-        ├─→ url(TestConfig.PROFILE_DELETE, createdId)        ├─→ url(TestConfig.PROFILE_DELETE, createdId)
+    "status": "ACTIVE",┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
 
-        │   └─→ "/api/admin/profile/delete/42"        │   └─→ "/api/admin/profile/delete/42"
+    "createdAt": "2025-11-02T10:00:00",
 
-        │        │
+    "updatedAt": "2025-11-02T10:00:00"│ 8. ИЗВЛЕЧЕНИЕ ДАННЫХ (если бы прошёл)                          ││ 8. ИЗВЛЕЧЕНИЕ ДАННЫХ (если бы прошёл)                          │
 
-        └─→ RequestBuilder.authorized(adminToken)        └─→ RequestBuilder.authorized(adminToken)
+}
 
-            └─→ .delete(url)            └─→ .delete(url)
+```└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
 
-                └─→ DELETE /api/admin/profile/delete/42                └─→ DELETE /api/admin/profile/delete/42
+
+
+---        │        │
+
+
+
+## Тесты        ├─→ ResponseExtractor.extractId(response)        ├─→ ResponseExtractor.extractId(response)
+
+
+
+### BalanceApiTest - 9 тестов        │   └─→ jsonPath().getLong("content.id")        │   └─→ jsonPath().getLong("content.id")
+
+
+
+1. `testGetBalanceById_Success` - успешное получение баланса по ID        │       └─→ return 42L        │       └─→ return 42L
+
+2. `testGetBalanceById_NotFound` - получение несуществующего баланса
+
+3. `testGetBalanceById_Unauthorized` - получение без токена        │        │
+
+4. `testGetAllBalances_Success` - получение списка балансов
+
+5. `testGetAllBalances_Unauthorized` - получение списка без токена        ▼        ▼
+
+6. `testUpdateBalance_AsPerSpecification` - обновление по спецификации (БАГ)
+
+7. `testUpdateBalance_NotFound` - обновление несуществующего баланса┌─────────────────────────────────────────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
+
+8. `testUpdateBalance_Unauthorized` - обновление без токена
+
+9. `testUpdateBalance_MissingAmount` - валидация обязательного поля│ 9. CLEANUP (если бы прошёл)                                     ││ 9. CLEANUP (если бы прошёл)                                     │
+
+
+
+### CounterApiTest - 7 тестов└─────────────────────────────────────────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
+
+
+
+1. `testGetCounterById_Success` - успешное получение счётчика        │        │
+
+2. `testGetCounterById_NotFound` - получение несуществующего счётчика
+
+3. `testGetCounterById_Unauthorized` - получение без токена        ├─→ url(TestConfig.PROFILE_DELETE, createdId)        ├─→ url(TestConfig.PROFILE_DELETE, createdId)
+
+4. `testGetAllCounters_Success` - получение всех счётчиков
+
+5. `testGetAllCounters_Unauthorized` - получение всех без токена        │   └─→ "/api/admin/profile/delete/42"        │   └─→ "/api/admin/profile/delete/42"
+
+6. `testGetAllActiveCounters_Success` - получение активных счётчиков (БАГ)
+
+7. `testGetAllActiveCounters_Unauthorized` - получение активных без токена        │        │
+
+
+
+### ProfileApiTest - 14 тестов        └─→ RequestBuilder.authorized(adminToken)        └─→ RequestBuilder.authorized(adminToken)
+
+
+
+1. `testCreateProfile_Success` - успешное создание профиля (БАГ)            └─→ .delete(url)            └─→ .delete(url)
+
+2. `testCreateProfile_DuplicateMsisdn` - создание с дубликатом MSISDN
+
+3. `testGetProfileById_Success` - получение профиля по ID                └─→ DELETE /api/admin/profile/delete/42                └─→ DELETE /api/admin/profile/delete/42
+
+4. `testGetProfileById_NotFound` - получение несуществующего профиля
+
+5. `testGetAllProfiles_Success` - получение списка профилей``````
+
+6. `testUpdateProfile_Success` - обновление профиля
+
+7. `testDeleteProfile_StatusCode` - удаление профиля (БАГ)
+
+8. `testGetAllRemovedProfiles_Success` - получение удалённых профилей
+
+9. `testCreateProfile_Unauthorized` - создание без токена------
+
+10. `testGetProfileById_Unauthorized` - получение без токена
+
+11. `testGetAllProfiles_Unauthorized` - получение списка без токена
+
+12. `testUpdateProfile_Unauthorized` - обновление без токена
+
+13. `testDeleteProfile_Unauthorized` - удаление без токена### Полная карта зависимостей файлов### 📦 Полная карта зависимостей файлов
+
+14. `testGetAllRemovedProfiles_Unauthorized` - получение удалённых без токена
+
+
+
+---
 
 ``````
 
-
-
-------
-
-
-
-### Полная карта зависимостей файлов### 📦 Полная карта зависимостей файлов
-
-
-
-``````
+## Тест-кейсы
 
 testCreateProfile_Success()testCreateProfile_Success()
 
+Подробное описание всех 30 тест-кейсов с примерами запросов/ответов, ожидаемыми результатами и процедурами воспроизведения.
+
 ││
+
+---
 
 ├── ProfileApiTest.java (тест)├── ProfileApiTest.java ──────────────────────┐ (тест)
 
+## Баг-репорты
+
 │   └── extends BaseApiTest.java│   └── extends BaseApiTest.java              │
 
+### БАГ #1: Balance Update - Некорректная обработка requestBody
+
 ││                                              │
+
+**Приоритет:** Высокий
 
 ├── BaseApiTest.java (базовый класс)├── BaseApiTest.java ─────────────────────────┤ (базовый класс)
 
+**Эндпоинт:** `PUT /api/balance/update/{id}`
+
 │   ├── globalSetup()│   ├── globalSetup()                         │
+
+**Спецификация:** Ожидает requestBody с `{"amount": <double>}`, возвращает 200
 
 │   ├── getAdminToken()│   ├── getAdminToken()                       │
 
+**Реальность:** API возвращает 400 Bad Request
+
 │   └── url()│   └── url()                                 │
 
-││                                              │
-
-├── TestConfig.java (конфигурация)├── TestConfig.java ──────────────────────────┤ (конфигурация)
-
-│   ├── BASE_URL│   ├── BASE_URL                              │
-
-│   ├── ADMIN_USERNAME│   ├── ADMIN_USERNAME                        │
-
-│   ├── ADMIN_PASSWORD│   ├── ADMIN_PASSWORD                        │
-
-│   ├── AUTH_SIGN_IN│   ├── AUTH_SIGN_IN                          │
-
-│   ├── AUTH_REGISTER│   ├── AUTH_REGISTER                         │
-
-│   ├── PROFILE_CREATE│   ├── PROFILE_CREATE                        │
-
-│   └── PROFILE_DELETE│   └── PROFILE_DELETE                        │
+**Код воспроизведения:**
 
 ││                                              │
 
-├── utils/RequestBuilder.java (HTTP запросы)├── utils/RequestBuilder.java ────────────────┤ (HTTP запросы)
+```java
 
-│   ├── authorized(token)│   ├── authorized(token)                     │
+BalanceUpdateRequest body = BalanceUpdateRequest.builder()├── TestConfig.java (конфигурация)├── TestConfig.java ──────────────────────────┤ (конфигурация)
 
-│   └── unauthorized()│   └── unauthorized()                        │
+    .amount(1500.50)
 
-││                                              │
+    .build();│   ├── BASE_URL│   ├── BASE_URL                              │
 
-├── utils/ApiAssertions.java (проверки)├── utils/ApiAssertions.java ─────────────────┤ (проверки)
 
-│   ├── assertOkResponse()│   ├── assertOkResponse()                    │
 
-│   ├── assertStatus()│   ├── assertStatus()                        │
+Response response = RequestBuilder.authorized(adminToken)│   ├── ADMIN_USERNAME│   ├── ADMIN_USERNAME                        │
 
-│   └── safeBody()│   └── safeBody()                            │
+    .body(body)
 
-││                                              │
+    .put("/api/balance/update/1");│   ├── ADMIN_PASSWORD│   ├── ADMIN_PASSWORD                        │
 
-├── utils/ResponseExtractor.java (извлечение данных)├── utils/ResponseExtractor.java ─────────────┤ (извлечение данных)
 
-│   ├── extractId()│   ├── extractId()                           │
 
-│   ├── extractToken()│   ├── extractToken()                        │
+// Ожидается: 200│   ├── AUTH_SIGN_IN│   ├── AUTH_SIGN_IN                          │
 
-│   ├── extractContent()│   ├── extractContent()                      │
+// Реально: 400
 
-│   └── extractContentList()│   └── extractContentList()                  │
+```│   ├── AUTH_REGISTER│   ├── AUTH_REGISTER                         │
 
-││                                              │
 
-├── utils/TestDataGenerator.java (генерация данных)├── utils/TestDataGenerator.java ─────────────┤ (генерация данных)
 
-│   ├── generateMsisdn()│   ├── generateMsisdn()                      │
+### БАГ #2: Profile Create - Неверный HTTP статус│   ├── PROFILE_CREATE│   ├── PROFILE_CREATE                        │
 
-│   ├── generateFirstName()│   ├── generateFirstName()                   │
 
-│   ├── generateLastName()│   ├── generateLastName()                    │
 
-│   └── generateTelegramChatId()│   └── generateTelegramChatId()              │
+**Приоритет:** Средний│   └── PROFILE_DELETE│   └── PROFILE_DELETE                        │
 
-││                                              │
 
-├── dto/request/ProfileCreateRequest.java (request DTO)├── dto/request/ProfileCreateRequest.java ────┤ (request DTO)
+
+**Эндпоинт:** `POST /api/admin/profile/create`││                                              │
+
+
+
+**Спецификация:** Должен возвращать 200 OK├── utils/RequestBuilder.java (HTTP запросы)├── utils/RequestBuilder.java ────────────────┤ (HTTP запросы)
+
+
+
+**Реальность:** API возвращает 201 Created│   ├── authorized(token)│   ├── authorized(token)                     │
+
+
+
+### БАГ #3: Profile Delete - Неверный HTTP статус│   └── unauthorized()│   └── unauthorized()                        │
+
+
+
+**Приоритет:** Средний││                                              │
+
+
+
+**Эндпоинт:** `DELETE /api/admin/profile/delete/{id}`├── utils/ApiAssertions.java (проверки)├── utils/ApiAssertions.java ─────────────────┤ (проверки)
+
+
+
+**Спецификация:** Должен возвращать 200 OK│   ├── assertOkResponse()│   ├── assertOkResponse()                    │
+
+
+
+**Реальность:** API возвращает 204 No Content│   ├── assertStatus()│   ├── assertStatus()                        │
+
+
+
+### БАГ #4: Counter All Active - Некорректный статус│   └── safeBody()│   └── safeBody()                            │
+
+
+
+**Приоритет:** Средний││                                              │
+
+
+
+**Эндпоинт:** `GET /api/admin/counter/all-active`├── utils/ResponseExtractor.java (извлечение данных)├── utils/ResponseExtractor.java ─────────────┤ (извлечение данных)
+
+
+
+**Спецификация:** Должен возвращать 200 OK│   ├── extractId()│   ├── extractId()                           │
+
+
+
+**Реальность:** API возвращает 204 No Content│   ├── extractToken()│   ├── extractToken()                        │
+
+
+
+---│   ├── extractContent()│   ├── extractContent()                      │
+
+
+
+## Best Practices│   └── extractContentList()│   └── extractContentList()                  │
+
+
+
+### Используйте утилиты вместо дублирования││                                              │
+
+
+
+Правильно:├── utils/TestDataGenerator.java (генерация данных)├── utils/TestDataGenerator.java ─────────────┤ (генерация данных)
+
+
+
+```java│   ├── generateMsisdn()│   ├── generateMsisdn()                      │
+
+ApiAssertions.assertOkResponse(response);
+
+```│   ├── generateFirstName()│   ├── generateFirstName()                   │
+
+
+
+Неправильно:│   ├── generateLastName()│   ├── generateLastName()                    │
+
+
+
+```java│   └── generateTelegramChatId()│   └── generateTelegramChatId()              │
+
+response.then()
+
+    .statusCode(200)││                                              │
+
+    .body("code", equalTo("OK"))
+
+    .body("content", notNullValue());├── dto/request/ProfileCreateRequest.java (request DTO)├── dto/request/ProfileCreateRequest.java ────┤ (request DTO)
+
+```
 
 │   ├── @JsonProperty fields│   ├── @JsonProperty fields                  │
+
+### Генерируйте уникальные данные
 
 │   ├── getters/setters│   ├── getters/setters                       │
 
+Правильно:
+
 │   └── Builder pattern│   └── Builder pattern                       │
 
-││                                              │
+```java
+
+String msisdn = TestDataGenerator.generateMsisdn();││                                              │
+
+```
 
 ├── dto/request/AuthSignInRequest.java (auth request)├── dto/request/AuthSignInRequest.java ───────┤ (auth request)
 
+Неправильно:
+
 │   └── Builder pattern│   └── Builder pattern                       │
 
-││                                              │
+```java
+
+String msisdn = "996801234567"; // Может конфликтовать││                                              │
+
+```
 
 ├── dto/request/AuthSignUpRequest.java (register request)├── dto/request/AuthSignUpRequest.java ───────┤ (register request)
 
+### Cleanup после создания ресурсов
+
 │   └── Builder pattern│   └── Builder pattern                       │
+
+Правильно:
 
 ││                                              │
 
-├── dto/response/ProfileDto.java (response DTO)├── dto/response/ProfileDto.java ─────────────┤ (response DTO)
+```java
 
-│   ├── @JsonProperty fields│   ├── @JsonProperty fields                  │
+Long createdId = ResponseExtractor.extractId(response);├── dto/response/ProfileDto.java (response DTO)├── dto/response/ProfileDto.java ─────────────┤ (response DTO)
+
+RequestBuilder.authorized(adminToken)
+
+    .delete(url(TestConfig.PROFILE_DELETE, createdId));│   ├── @JsonProperty fields│   ├── @JsonProperty fields                  │
+
+```
 
 │   └── getters/setters│   └── getters/setters                       │
 
+### Информативные описания тестов
+
 ││                                              │
+
+Правильно:
 
 └── pom.xml (зависимости)└── pom.xml ──────────────────────────────────┘ (зависимости)
 
-    ├── TestNG 7.10.2    ├── TestNG 7.10.2
+```java
 
-    ├── REST Assured 5.5.0    ├── REST Assured 5.5.0
+@Test(priority = 1, description = "GET /api/balance/{id} - успешное получение баланса")    ├── TestNG 7.10.2    ├── TestNG 7.10.2
 
-    ├── Jackson 2.18.2    ├── Jackson 2.18.2
+public void testGetBalanceById_Success() { }
 
-    ├── jackson-datatype-jsr310 2.18.2    ├── jackson-datatype-jsr310 2.18.2
-
-    └── Datafaker 2.4.2    └── Datafaker 2.4.2
-
-``````
+```    ├── REST Assured 5.5.0    ├── REST Assured 5.5.0
 
 
 
-------
+### Проверяйте по спецификации    ├── Jackson 2.18.2    ├── Jackson 2.18.2
 
 
 
-### Последовательность вызовов (Call Stack)### 🔄 Последовательность вызовов (Call Stack)
+Правильно:    ├── jackson-datatype-jsr310 2.18.2    ├── jackson-datatype-jsr310 2.18.2
 
 
 
-``````
+```java    └── Datafaker 2.4.2    └── Datafaker 2.4.2
 
-1. TestNG запускает тест1. TestNG запускает тест
+ApiAssertions.assertOkResponse(response);
 
-   └─→ ProfileApiTest.testCreateProfile_Success()   └─→ ProfileApiTest.testCreateProfile_Success()
-
-
-
-2. Генерация MSISDN2. Генерация MSISDN
-
-   └─→ TestDataGenerator.generateMsisdn()   └─→ TestDataGenerator.generateMsisdn()
-
-       └─→ Faker.number().digits(7)       └─→ Faker.number().digits(7)
+`````````
 
 
 
-3. Построение Request DTO3. Построение Request DTO
-
-   └─→ ProfileCreateRequest.builder()   └─→ ProfileCreateRequest.builder()
-
-       └─→ .msisdn().userId().pricePlanId().build()       └─→ .msisdn().userId().pricePlanId().build()
+Неправильно:
 
 
 
-4. Построение HTTP запроса4. Построение HTTP запроса
+```java------
+
+Assert.assertEquals(response.getStatusCode(), 201); // Подстраиваемся под баг
+
+```
+
+
+
+---### Последовательность вызовов (Call Stack)### 🔄 Последовательность вызовов (Call Stack)
+
+
+
+## Troubleshooting
+
+
+
+### Тесты падают с 403 Forbidden``````
+
+
+
+**Причина:** Не получен или истёк adminToken1. TestNG запускает тест1. TestNG запускает тест
+
+
+
+**Решение:**   └─→ ProfileApiTest.testCreateProfile_Success()   └─→ ProfileApiTest.testCreateProfile_Success()
+
+
+
+1. Проверьте credentials в TestConfig.java
+
+2. Убедитесь, что API доступен
+
+3. Проверьте консольный вывод на наличие ошибок авторизации2. Генерация MSISDN2. Генерация MSISDN
+
+
+
+### Тесты падают с Connection Refused   └─→ TestDataGenerator.generateMsisdn()   └─→ TestDataGenerator.generateMsisdn()
+
+
+
+**Причина:** API сервер недоступен       └─→ Faker.number().digits(7)       └─→ Faker.number().digits(7)
+
+
+
+**Решение:**
+
+
+
+```bash3. Построение Request DTO3. Построение Request DTO
+
+curl http://195.38.164.168:7173/api/auth/sign_in
+
+```   └─→ ProfileCreateRequest.builder()   └─→ ProfileCreateRequest.builder()
+
+
+
+### Profile тесты падают с "MSISDN invalid pattern"       └─→ .msisdn().userId().pricePlanId().build()       └─→ .msisdn().userId().pricePlanId().build()
+
+
+
+**Причина:** Неправильный формат MSISDN
+
+
+
+**Решение:** MSISDN должен соответствовать `^99680\d{7}$` (всего 12 символов)4. Построение HTTP запроса4. Построение HTTP запроса
+
 
    └─→ RequestBuilder.authorized(adminToken)   └─→ RequestBuilder.authorized(adminToken)
 
