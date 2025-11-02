@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Billing API Tests" verbose="1">
+    <test name="Admin API Tests">
+        <classes>
+            <class name="qa.tests.BalanceTests"/>
+            <class name="qa.tests.CounterTests"/>
+            <class name="qa.tests.ProfileTests"/>
+        </classes>
+    </test>
+</suite>
