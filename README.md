@@ -1,147 +1,294 @@
-# Billing API - Automated Testing Framework
+# Billing API Test Framework# Billing API Test Framework
 
-REST Assured автотесты для проверки соответствия Billing API спецификации OpenAPI 3.0.1.
 
-![Java](https://img.shields.io/badge/Java-21-orange)
-![Maven](https://img.shields.io/badge/Maven-3.9.11-blue)
-![TestNG](https://img.shields.io/badge/TestNG-7.10.2-green)
-![Tests](https://img.shields.io/badge/tests-29%20total-blue)
-![Passing](https://img.shields.io/badge/passing-26-success)
-![Bugs Found](https://img.shields.io/badge/bugs%20found-3-red)
 
-## 📋 Описание
+REST Assured автотесты для проверки соответствия Billing API спецификации OpenAPI 3.0.1.REST Assured автотесты для проверки соответствия Billing API спецификации OpenAPI 3.0.1.
 
-Фреймворк для автоматизированного тестирования Billing API. Все тесты написаны **строго по OpenAPI спецификации**. Падающие тесты = найденные баги в API.
 
-**Покрытие:**
-- ✅ 29 автотестов для admin endpoints
-- ✅ Balance API (9 тестов)
-- ✅ Counter API (7 тестов)  
-- ✅ Profile API (13 тестов)
-- 🐛 Обнаружено 3 бага в API
 
-## 🚀 Быстрый старт
+![Java](https://img.shields.io/badge/Java-21-orange)![Java](https://img.shields.io/badge/Java-21-orange)
+
+![Maven](https://img.shields.io/badge/Maven-3.9.11-blue)![Maven](https://img.shields.io/badge/Maven-3.9.11-blue)
+
+![TestNG](https://img.shields.io/badge/TestNG-7.10.2-green)![TestNG](https://img.shields.io/badge/TestNG-7.10.2-green)
+
+![Tests](https://img.shields.io/badge/tests-30-blue)![Tests](https://img.shields.io/badge/tests-30-blue)
+
+![Passing](https://img.shields.io/badge/passing-26-success)![Passing](https://img.shields.io/badge/passing-26-success)
+
+![Bugs Found](https://img.shields.io/badge/bugs%20found-4-red)![Bugs Found](https://img.shields.io/badge/bugs%20found-4-red)
+
+
+
+## Описание## Описание
+
+
+
+Фреймворк для автоматизированного тестирования Billing API. Тесты написаны строго по OpenAPI спецификации. Падающие тесты = найденные баги в API.Фреймворк для автоматизированного тестирования Billing API. Тесты написаны строго по OpenAPI спецификации. Падающие тесты = найденные баги в API.
+
+
+
+**Покрытие:****Покрытие:**
+
+- 30 автотестов для admin endpoints- 30 автотестов для admin endpoints
+
+- Balance API: 9 тестов- Balance API: 9 тестов
+
+- Counter API: 7 тестов  - Counter API: 7 тестов  
+
+- Profile API: 14 тестов- Profile API: 14 тестов
+
+- Найдено 4 бага в API- Найдено 4 бага в API
+
+
+
+## Быстрый старт## Быстрый старт
+
+
+
+```bash```bash
+
+mvn clean testmvn clean test
+
+``````
+
+
+
+Результат: 30 tests run, 26 passed, 4 failedРезультат: 30 tests run, 26 passed, 4 failed
+
+
+
+## Найденные баги## Найденные баги
+
+
+
+| # | Эндпоинт | Спека | Факт | Приоритет || # | Эндпоинт | Спека | Факт | Приоритет |
+
+|---|----------|-------|------|-----------||---|----------|-------|------|-----------|
+
+| 1 | `POST /api/admin/profile/create` | 200 | 201 | Средний || 1 | `POST /api/admin/profile/create` | 200 | 201 | Средний |
+
+| 2 | `DELETE /api/admin/profile/delete/{id}` | 200 | 204 | Средний || 2 | `DELETE /api/admin/profile/delete/{id}` | 200 | 204 | Средний |
+
+| 3 | `PUT /api/balance/update/{id}` | 200 | 400 | Высокий || 3 | `PUT /api/balance/update/{id}` | 200 | 400 | Высокий |
+
+| 4 | `GET /api/admin/counter/all-active` | 200 | 204 | Средний || 4 | `GET /api/admin/counter/all-active` | 200 | 204 | Средний |
+
+
+
+## Технологии## Технологии
+
+
+
+- Java 21- Java 21
+
+- Maven 3.9.11- Maven 3.9.11
+
+- TestNG 7.10.2- TestNG 7.10.2
+
+- REST Assured 5.5.0- REST Assured 5.5.0
+
+- Jackson 2.18.2- Jackson 2.18.2
+
+- Datafaker 2.4.2- Datafaker 2.4.2
+
+
+
+## Структура## Структура
+
+
+
+``````
+
+src/test/java/auc/src/test/java/auc/
+
+├── tests/├── tests/
+
+│   ├── BalanceApiTest.java│   ├── BalanceApiTest.java      # 9 тестов
+
+│   ├── CounterApiTest.java│   ├── CounterApiTest.java      # 7 тестов
+
+│   └── ProfileApiTest.java│   └── ProfileApiTest.java      # 13 тестов
+
+├── utils/├── utils/
+
+│   ├── ApiAssertions.java│   ├── ApiAssertions.java       # Проверки статусов
+
+│   ├── RequestBuilder.java│   ├── RequestBuilder.java      # Построение запросов
+
+│   ├── ResponseExtractor.java│   ├── ResponseExtractor.java   # Извлечение данных
+
+│   └── TestDataGenerator.java│   └── TestDataGenerator.java   # Генерация данных
+
+├── dto/├── dto/
+
+│   ├── request/│   ├── request/                 # Request DTOs
+
+│   └── response/│   └── response/                # Response DTOs
+
+├── BaseApiTest.java├── BaseApiTest.java             # Базовый класс
+
+└── TestConfig.java└── TestConfig.java              # Конфигурация
+
+``````
+
+
+
+## Покрытые эндпоинты## Покрытые эндпоинты
+
+
+
+### Balance - 9 тестов### Balance - 9 тестов
+
+- GET /api/balance/{id}- GET /api/balance/{id}
+
+- GET /api/balance/all- GET /api/balance/all
+
+- PUT /api/balance/update/{id}- PUT /api/balance/update/{id}
+
+
+
+### Counter - 7 тестов### Counter - 7 тестов
+
+- GET /api/admin/counter/{id}- GET /api/admin/counter/{id}
+
+- GET /api/admin/counter/all- GET /api/admin/counter/all
+
+- GET /api/admin/counter/all-active- GET /api/admin/counter/all-active
+
+
+
+### Profile - 14 тестов### Profile - 14 тестов
+
+- POST /api/admin/profile/create- POST /api/admin/profile/create
+
+- GET /api/admin/profile/{id}- GET /api/admin/profile/{id}
+
+- GET /api/admin/profile/all- GET /api/admin/profile/all
+
+- PUT /api/admin/profile/update/{id}- PUT /api/admin/profile/update/{id}
+
+- DELETE /api/admin/profile/delete/{id}- DELETE /api/admin/profile/delete/{id}
+
+- GET /api/admin/profile/all-removed- GET /api/admin/profile/all-removed
+
+
+
+## Конфигурация## ⚙️ Конфигурация
+
+
+
+Файл `src/test/java/auc/TestConfig.java`:**Файл:** `src/test/java/auc/TestConfig.java`
+
+
+
+```java```java
+
+BASE_URL = "http://195.38.164.168:7173"BASE_URL = "http://195.38.164.168:7173"
+
+ADMIN_USERNAME = "superuser"ADMIN_USERNAME = "superuser"
+
+ADMIN_PASSWORD = "Admin123!@#"ADMIN_PASSWORD = "Admin123!@#"
+
+``````
+
+
+
+Через параметры:**Через параметры:**
 
 ```bash
-mvn clean test
-```
 
-**Результат:** 29 tests run, 26 passed, 3 failed (баги API)
+```bashmvn test -DbaseUrl=http://localhost:8080 \
 
-## 📊 Найденные баги
+mvn test -DbaseUrl=http://localhost:8080 -DadminUsername=admin -DadminPassword=secret         -DadminUsername=admin \
 
-| # | Эндпоинт | Спека | Реальность | Приоритет |
-|---|----------|-------|------------|-----------|
-| 1 | `POST /api/admin/profile/create` | 200 | 201 | 🟡 Средний |
-| 2 | `PUT /api/balance/update/{id}` | 200 | 400 | 🔴 Высокий |
-| 3 | `GET /api/admin/counter/all-active` | 200 | 204 | 🟡 Средний |
-
-## 🛠 Технологии
-
-- **Java 21** - язык
-- **Maven 3.9.11** - сборка
-- **TestNG 7.10.2** - test framework
-- **REST Assured 5.5.0** - HTTP клиент
-- **Jackson 2.18.2** - JSON
-- **Datafaker 2.4.2** - тестовые данные
-
-## 📁 Структура
+```         -DadminPassword=secret
 
 ```
-src/test/java/auc/
-├── tests/
-│   ├── BalanceApiTest.java      # 9 тестов
-│   ├── CounterApiTest.java      # 7 тестов
-│   └── ProfileApiTest.java      # 13 тестов
-├── utils/
-│   ├── ApiAssertions.java       # Проверки статусов
-│   ├── RequestBuilder.java      # Построение запросов
-│   ├── ResponseExtractor.java   # Извлечение данных
-│   └── TestDataGenerator.java   # Генерация данных
-├── dto/
-│   ├── request/                 # Request DTOs
-│   └── response/                # Response DTOs
-├── BaseApiTest.java             # Базовый класс
-└── TestConfig.java              # Конфигурация
-```
 
-## 🎯 Покрытые эндпоинты
-
-### Balance (9 тестов)
-- `GET /api/balance/{id}` - получение, 404, 403
-- `GET /api/balance/all` - список, 403
-- `PUT /api/balance/update/{id}` - обновление, 404, 403, валидация
-
-### Counter (7 тестов)
-- `GET /api/admin/counter/{id}` - получение, 404, 403
-- `GET /api/admin/counter/all` - список, 403
-- `GET /api/admin/counter/all-active` - активные, 403
-
-### Profile (13 тестов)
-- `POST /api/admin/profile/create` - создание, дубликат, 403
-- `GET /api/admin/profile/{id}` - получение, 404, 403
-- `GET /api/admin/profile/all` - список, 403
-- `PUT /api/admin/profile/update/{id}` - обновление, 403
-- `DELETE /api/admin/profile/delete/{id}` - удаление, 403
-- `GET /api/admin/profile/all-removed` - удалённые
-
-## ⚙️ Конфигурация
-
-**Файл:** `src/test/java/auc/TestConfig.java`
-
-```java
-BASE_URL = "http://195.38.164.168:7173"
-ADMIN_USERNAME = "superuser"
-ADMIN_PASSWORD = "Admin123!@#"
-```
-
-**Через параметры:**
-```bash
-mvn test -DbaseUrl=http://localhost:8080 \
-         -DadminUsername=admin \
-         -DadminPassword=secret
-```
+## Документация
 
 ## � Документация
+
+Полная техническая документация: [FRAMEWORK_DOCUMENTATION.md](FRAMEWORK_DOCUMENTATION.md)
 
 Вся документация в одном файле: **[FRAMEWORK_DOCUMENTATION.md](FRAMEWORK_DOCUMENTATION.md)**
 
 Содержит:
-- Архитектура фреймворка
-- Описание всех классов и методов
-- Примеры использования
-- Все 29 тест-кейсов с деталями
-- Полные репорты 3 багов
-- Best practices и troubleshooting
 
-## 🔧 Запуск тестов
+- Полный воркфлоу теста с визуализациейСодержит:
 
-**Все тесты:**
+- Архитектура фреймворка- Архитектура фреймворка
+
+- Описание классов и методов- Описание всех классов и методов
+
+- Примеры использования- Примеры использования
+
+- 30 тест-кейсов- Все 29 тест-кейсов с деталями
+
+- 4 баг-репорта- Полные репорты 3 багов
+
+- Best practices- Best practices и troubleshooting
+
+
+
+## Запуск тестов## 🔧 Запуск тестов
+
+
+
+Все тесты:**Все тесты:**
+
 ```bash
-mvn clean test
+
+```bashmvn clean test
+
+mvn clean test```
+
 ```
 
 **Конкретный класс:**
-```bash
+
+Конкретный класс:```bash
+
 mvn test -Dtest=BalanceApiTest
-mvn test -Dtest=CounterApiTest
+
+```bashmvn test -Dtest=CounterApiTest
+
+mvn test -Dtest=BalanceApiTestmvn test -Dtest=ProfileApiTest
+
+mvn test -Dtest=CounterApiTest```
+
 mvn test -Dtest=ProfileApiTest
-```
 
-**Результаты:** `target/surefire-reports/`
+```**Результаты:** `target/surefire-reports/`
 
-## � Принципы
 
-1. **Spec-First** - тесты строго по OpenAPI спецификации
+
+Результаты: `target/surefire-reports/`## � Принципы
+
+
+
+## Принципы1. **Spec-First** - тесты строго по OpenAPI спецификации
+
 2. **Bug Detection** - падающие тесты = баги API
-3. **Clean Code** - минимум кода, максимум читаемости
-4. **DRY** - переиспользуемые утилиты
-5. **Simple** - плоская структура, без over-engineering
 
-## 📄 Лицензия
+1. Spec-First: тесты строго по OpenAPI спецификации3. **Clean Code** - минимум кода, максимум читаемости
+
+2. Bug Detection: падающие тесты = баги API4. **DRY** - переиспользуемые утилиты
+
+3. Clean Code: минимум кода, максимум читаемости5. **Simple** - плоская структура, без over-engineering
+
+4. DRY: переиспользуемые утилиты
+
+5. Simple: плоская структура, без over-engineering## 📄 Лицензия
+
+
+
+## ЛицензияMIT
+
+
 
 MIT
-
 
 
 ## Структура## 🎯 Покрытые эндпоинты
